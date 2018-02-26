@@ -1,0 +1,12 @@
+Create table User{
+    PID int,
+    LastName varchar(255),
+    FirstName varchar(255),
+    PRIMARY KEY (PID) 
+}
+
+Create table password{
+	PID int,
+    password varchar(255),
+	PRIMARY KEY (PID)
+}
