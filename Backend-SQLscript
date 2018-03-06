@@ -47,3 +47,33 @@ insert into roles(rid, roleslist) values (3, 'Adminstrator');
 insert into roles(rid, roleslist) values (4, 'General User');
 
 --select * from roles;
+
+
+-- Jason's Tables
+drop table if exists userInfo
+
+create table userInfo (
+    PID int,
+    address varchar,
+    phoneNumber varchar,
+    userEmail varchar
+    PRIMARY KEY (PID)
+);
+
+drop table if exists permissions
+
+create table permissions (
+    RID int,
+    read char,
+    edit char,
+    addUser char,
+    updateDB char,
+    viewAllUserInfo char
+    PRIMARY KEY (RID)
+);
+
+create table last_login (
+    PID integer NOT NULL,
+    lastlogin timestamp without time zone
+);
+-- end Jason's tables JPN
