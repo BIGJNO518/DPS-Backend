@@ -41,12 +41,24 @@ create table roles (
 
 );
 
+create table jobs (
+
+	jid int primary key,
+	eid int,
+	pid int, 
+	title varchar,
+	intime time,
+	outtime time
+
+);
+
 insert into roles(rid, roleslist) values (1, 'Employee');
 insert into roles(rid, roleslist) values (2, 'Volunteer');
 insert into roles(rid, roleslist) values (3, 'Adminstrator');
 insert into roles(rid, roleslist) values (4, 'General User');
 
 --select * from roles;
+-- end Ahsan's Tables
 
 
 -- Jason's Tables
