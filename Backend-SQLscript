@@ -74,8 +74,14 @@ create table userInfo (
     address varchar,
     phoneNumber varchar,
     userEmail varchar
+    RID int, 
     PRIMARY KEY (PID)
 );
+insert into userInfo(PID, address, phoneNumber, userEmail, RID) values (001, '34 Awesome Ave.', '518-775-7775', "nnnj@company.com", 1); 
+insert into userInfo(PID, address, phoneNumber, userEmail, RID) values (002, '37 Best Ave.', '518-665-8899', "beez@email.com", 2);
+insert into userInfo(PID, address, phoneNumber, userEmail, RID) values (003, '43 Sheezy St.', '518-889-0099', "sneezyj@company.com", 3); 
+insert into userInfo(PID, address, phoneNumber, userEmail, RID) values (9999, '34 Random Ave.', '518-009-8877', "rando@email.com", 4);
+
 
 drop table if exists permissions
 
@@ -88,6 +94,10 @@ create table permissions (
     viewAllUserInfo char
     PRIMARY KEY (RID)
 );
+insert into permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) values (1, 'Y', 'Y', 'Y', 'Y', 'N');
+insert into permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) values (2, 'Y', 'N', 'Y', 'N', 'N');
+insert into permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) values (3, 'Y', 'Y', 'Y', 'Y', 'Y');
+insert into permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) values (4, 'Y', 'N', 'Y', 'N', 'N');
 
 create table last_login (
     PID integer NOT NULL,
