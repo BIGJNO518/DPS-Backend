@@ -1,15 +1,15 @@
-Create table User{
+Create table User(
     PID int,
     LastName varchar(255),
     FirstName varchar(255),
     PRIMARY KEY (PID) 
-}
+);
 
-Create table password{
-	PID int,
+Create table password(
+    PID int,
     password varchar(255),
-	PRIMARY KEY (PID)
-}
+    PRIMARY KEY (PID)
+);
 
 --Erick's Table 
 CREATE TABLE EVENT 
