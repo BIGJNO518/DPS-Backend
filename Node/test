@@ -1,0 +1,22 @@
+var mysql = require('mysql');
+var string;
+
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "dps",
+  password: "DPSbackend",
+  database: "DPSbackend"
+});
+
+con.connect(function(err) {
+  if (err) throw err;
+  con.query("SELECT * FROM roles", function (err, result, fields) {
+    if (err) throw err;
+    console.log(result);
+    string = result;
+  });
+});
+
+exports.sendData = function (var ){
+	return string;
+}
