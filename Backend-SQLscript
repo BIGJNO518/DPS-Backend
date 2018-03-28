@@ -25,6 +25,7 @@ CREATE TABLE UserInfo (
     phoneNumber VARCHAR(12),
     userEmail VARCHAR(255),
     RID INT, 
+    last_login TIMESTAMP,
     PRIMARY KEY (PID)
 );
 INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (001, '34 Awesome Ave.', '518-775-7775', 'Yummy@food.com', 1); 
@@ -33,7 +34,7 @@ INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (003, '43
 INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (004, 'BattleSchool, Lusitania', '518-009-8877', 'xenocide@email.com', 3);
 INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (005, 'Athens, Greece', '765-957-9009', 'beannme@email.com', 2);
 INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (006, 'Greensboro, NC', '800-HEGEMON', 'Hegemon@offices.earthgov,, 3);
-INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (9999, 'NULL', 'NULL', 'NULL', 4);
+INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (999, 'NULL', 'NULL', 'NULL', 4);
 
 CREATE TABLE Event 
 (EID INT, 
@@ -100,8 +101,5 @@ INSERT INTO Permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) VAL
 INSERT INTO Permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) VALUES (3, 'Y', 'Y', 'Y', 'Y', 'Y');
 INSERT INTO Permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) VALUES (4, 'Y', 'N', 'Y', 'N', 'N');
 
-CREATE TABLE Last_Login (
-	PID INT PRIMARY KEY,    
-	lastlogin TIMESTAMP
-);
+
 
