@@ -17,12 +17,14 @@ INSERT INTO UserName(PID, LastName, FirstName) VALUES (006, 'Wiggin', 'Peter' );
 INSERT INTO UserName(PID, LastName, FirstName) VALUES (999, 'User', 'General' ); 
 
 
+DROP IF EXISTS TABLE UserPassword;
 CREATE TABLE UserPassword(
     PID INT,
     password VARCHAR(255),
     PRIMARY KEY (PID)
 );
 
+DROP IF EXISTS TABLE UserInfo;
 CREATE TABLE UserInfo (
     PID INT,
     address VARCHAR(255),
@@ -40,6 +42,8 @@ INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (005, 'At
 INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (006, 'Greensboro, NC', '800-HEGEMON', 'Hegemon@offices.earthgov,, 3);
 INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (999, 'NULL', 'NULL', 'NULL', 4);
 
+
+DROP IF EXISTS TABLE Event;
 CREATE TABLE Event 
 (EID INT, 
 FirstName VARCHAR(50), 
@@ -59,7 +63,7 @@ INSERT INTO Event(EID, FirstName, LastName, Date, Address, City, State) VALUES(0
 INSERT INTO Event(EID, FirstName, LastName, Date, Address, City, State) VALUES(006, 'Smort', 'Ace', '2010-06-051', '2 This ave', 'Nowear', 'Alter');
 INSERT INTO Event(EID, FirstName, LastName, Date, Address, City, State) VALUES(999, 'NULL', 'NULL', '0000-00-00', 'NULL', 'NULL', 'NULL');
 
-
+DROP IF EXISTS TABLE EventRoster;
 CREATE TABLE EventRoster
 (EID INT,
 PID INT,
@@ -74,6 +78,8 @@ INSERT INTO EventRoster(EID, PID) VALUES(005, 005);
 INSERT INTO EventRoster(EID, PID) VALUES(006, 006);
 INSERT INTO EventRoster(EID, PID) VALUES(999, 999);
 
+
+DROP IF EXISTS TABLE Contributions;
 CREATE TABLE Contributions
 (EID INT, 
 PID INT, 
