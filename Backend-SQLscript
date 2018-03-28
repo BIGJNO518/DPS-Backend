@@ -47,11 +47,28 @@ State VARCHAR(20),
 PRIMARY KEY(EID,Date)
 );
 
+INSERT INTO Event(EID, FirstName, LastName, Date, Address, City, State) VALUES(001, 'Erick', 'Salas', '2014-04-01', '2 This ave', 'Nowear', 'Alter');
+INSERT INTO Event(EID, FirstName, LastName, Date, Address, City, State) VALUES(002, 'Thinge', 'Won', '2012-02-05', 'Single st', 'Once', 'Ohio');
+INSERT INTO Event(EID, FirstName, LastName, Date, Address, City, State) VALUES(003, 'Thing', 'Twou', '1997-08-02', 'Mono', 'Harlem', 'New York');
+INSERT INTO Event(EID, FirstName, LastName, Date, Address, City, State) VALUES(004, 'Christ', 'Jesus', '0001-01-01', 'Jerus av', 'Truths', 'News');
+INSERT INTO Event(EID, FirstName, LastName, Date, Address, City, State) VALUES(005, 'Gero', 'Cornell', '1980-09-12', '2 This ave', 'Nowear', 'Alter');
+INSERT INTO Event(EID, FirstName, LastName, Date, Address, City, State) VALUES(006, 'Smort', 'Ace', '2010-06-051', '2 This ave', 'Nowear', 'Alter');
+INSERT INTO Event(EID, FirstName, LastName, Date, Address, City, State) VALUES(999, 'NULL', 'NULL', '0000-00-00', 'NULL', 'NULL', 'NULL');
+
+
 CREATE TABLE EventRoster
 (EID INT,
 PID INT,
 PRIMARY KEY(PID,EID)
 ); 
+
+INSERT INTO EventRoster(EID, PID) VALUES(001, 001);
+INSERT INTO EventRoster(EID, PID) VALUES(002, 002);
+INSERT INTO EventRoster(EID, PID) VALUES(003, 003);
+INSERT INTO EventRoster(EID, PID) VALUES(004, 004);
+INSERT INTO EventRoster(EID, PID) VALUES(005, 005);
+INSERT INTO EventRoster(EID, PID) VALUES(006, 006);
+INSERT INTO EventRoster(EID, PID) VALUES(999, 999);
 
 CREATE TABLE Contributions
 (EID INT, 
@@ -59,6 +76,14 @@ PID INT,
 Amount MONEY,
 PRIMARY KEY (PID,EID)
 ); 
+
+INSERT INTO Contribution(EID, PID, Amount) VALUES(001, 001, $1000.00);
+INSERT INTO Contribution(EID, PID, Amount) VALUES(002, 002, $421.20);
+INSERT INTO Contribution(EID, PID, Amount) VALUES(003, 003, $2222.22);
+INSERT INTO Contribution(EID, PID, Amount) VALUES(004, 004, $1.01);
+INSERT INTO Contribution(EID, PID, Amount) VALUES(005, 005, $0.01);
+INSERT INTO Contribution(EID, PID, Amount) VALUES(006, 006, $100000.10);
+INSERT INTO Contribution(EID, PID, Amount) VALUES(999, 999, NULL);
 
 
 
