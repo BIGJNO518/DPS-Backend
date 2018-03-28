@@ -4,6 +4,14 @@ CREATE TABLE UserName(
     FirstName VARCHAR(255),
     PRIMARY KEY (PID) 
 );
+INSERT INTO UserName(PID, LastName, FirstName) VALUES (001, 'Ganoush', 'Baba' ); 
+INSERT INTO UserName(PID, LastName, FirstName) VALUES (002, 'Lovelace', 'Betty' ); 
+INSERT INTO UserName(PID, LastName, FirstName) VALUES (003, 'Jordan', 'Hal' ); 
+INSERT INTO UserName(PID, LastName, FirstName) VALUES (004, 'Wiggen', 'Ender' ); 
+INSERT INTO UserName(PID, LastName, FirstName) VALUES (005, 'Arkanian', 'Petra' ); 
+INSERT INTO UserName(PID, LastName, FirstName) VALUES (006, 'Wiggin', 'Peter' );
+INSERT INTO UserName(PID, LastName, FirstName) VALUES (999, 'User', 'General' ); 
+
 
 CREATE TABLE UserPassword(
     PID INT,
@@ -12,93 +20,89 @@ CREATE TABLE UserPassword(
 );
 
 CREATE TABLE UserInfo (
-    PID int,
-    address varchar,
-    phoneNumber varchar,
-    userEmail varchar
-    RID int, 
+    PID INT,
+    address VARCHAR(255),
+    phoneNumber VARCHAR(12),
+    userEmail VARCHAR(255),
+    RID INT, 
     PRIMARY KEY (PID)
 );
-insert into userInfo(PID, address, phoneNumber, userEmail, RID) values (001, '34 Awesome Ave.', '518-775-7775', "nnnj@company.com", 1); 
-insert into userInfo(PID, address, phoneNumber, userEmail, RID) values (002, '37 Best Ave.', '518-665-8899', "beez@email.com", 2);
-insert into userInfo(PID, address, phoneNumber, userEmail, RID) values (003, '43 Sheezy St.', '518-889-0099', "sneezyj@company.com", 3); 
-insert into userInfo(PID, address, phoneNumber, userEmail, RID) values (9999, '34 Random Ave.', '518-009-8877', "rando@email.com", 4);
+INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (001, '34 Awesome Ave.', '518-775-7775', 'Yummy@food.com', 1); 
+INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (002, '37 Best Ave.', '518-665-8899', 'beez@email.com', 1);
+INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (003, '43 Lantern St.', '518-889-0099', 'GreenBaby@DC_Uni.com', 2); 
+INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (004, 'BattleSchool, Lusitania', '518-009-8877', 'xenocide@email.com', 3);
+INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (005, 'Athens, Greece', '765-957-9009', 'beannme@email.com', 2);
+INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (006, 'Greensboro, NC', '800-HEGEMON', 'Hegemon@offices.earthgov,, 3);
+INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (9999, 'NULL', '5NULL', 'NULL', 4);
 
-
---Erick's Table 
 CREATE TABLE Event 
-(EID INT PRIMARY KEY, 
+(EID INT, 
 FirstName VARCHAR(50), 
 LastName VARCHAR(50), 
-Date DATE PRIMARY KEY, 
+Date DATE, 
 Address VARCHAR(30),
 City VARCHAR(20),
-State VARCHAR(20)
+State VARCHAR(20),
+PRIMARY KEY(EID,Date)
 );
 
 CREATE TABLE EventRoster
 (EID INT,
 PID INT,
-PRIMARY KEY(PID),
-PRIMARY KEY(EID)); 
+PRIMARY KEY(PID,EID)
+); 
 
 CREATE TABLE Contributions
 (EID INT, 
 PID INT, 
 Amount MONEY,
-PRIMARY KEY (PID),
-PRIMARY KEY(EID)); 
---End of Erick's Table 
+PRIMARY KEY (PID,EID)
+); 
 
--- Ahsan's Table
-drop table if exists roles;
+
+
+DROP TABLE if exists Roles;
 
 CREATE TABLE Roles (
 	RID INT PRIMARY KEY,
 	roleslist VARCHAR(255)
 );
+INSERT INTO roles(RID, roleslist) VALUES (1, 'Employee');
+INSERT INTO roles(RID, roleslist) VALUES (2, 'Volunteer');
+INSERT INTO roles(RID, roleslist) VALUES (3, 'Adminstrator');
+INSERT INTO roles(RID, roleslist) VALUES (4, 'General User');
 
 CREATE TABLE Jobs (
-	JID INT PRIMARY KEY,
+	JID INT,
 	EID INT,
-	PID IND, 
+	PID INT, 
 	title VARCHAR(255),
 	intime TIME,
-	outtime TIME
+	outtime TIME,
+	PRIMARY KEY (JID,EID)
 );
 
-insert into roles(rid, roleslist) values (1, 'Employee');
-insert into roles(rid, roleslist) values (2, 'Volunteer');
-insert into roles(rid, roleslist) values (3, 'Adminstrator');
-insert into roles(rid, roleslist) values (4, 'General User');
-
 --select * from Roles;
--- end Ahsan's Tables
-
-
--- Jason's Tables
-DROP TABLE if exists UserInfo
-
-
 
 DROP TABLE if exists Permissions
 
 CREATE TABLE Permissions (
-    RID int,
-    read char,
-    edit char,
-    addUser char,
-    updateDB char,
-    viewAllUserInfo char
-    PRIMARY KEY (RID)
+    RID INT PRIMARY KEY,
+    read CHAR,
+    edit CHAR,
+    addUser CHAR,
+    updateDB CHAR,
+    viewAllUserInfo CHAR
+    
 );
-insert into permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) values (1, 'Y', 'Y', 'Y', 'Y', 'N');
-insert into permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) values (2, 'Y', 'N', 'Y', 'N', 'N');
-insert into permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) values (3, 'Y', 'Y', 'Y', 'Y', 'Y');
-insert into permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) values (4, 'Y', 'N', 'Y', 'N', 'N');
+
+INSERT INTO permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) VALUES (1, 'Y', 'Y', 'Y', 'Y', 'N');
+INSERT INTO permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) VALUES (2, 'Y', 'N', 'Y', 'N', 'N');
+INSERT INTO permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) VALUES (3, 'Y', 'Y', 'Y', 'Y', 'Y');
+INSERT INTO permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) VALUES (4, 'Y', 'N', 'Y', 'N', 'N');
 
 CREATE TABLE Last_Login (
     PID INT,
     lastlogin TIMESTAMP
 );
--- end Jason's tables JPN
+
