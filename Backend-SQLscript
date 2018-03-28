@@ -1,11 +1,11 @@
-Create table User(
+Create table UserName(
     PID int,
     LastName varchar(255),
     FirstName varchar(255),
     PRIMARY KEY (PID) 
 );
 
-Create table password(
+Create table Userpassword(
     PID int,
     password varchar(255),
     PRIMARY KEY (PID)
