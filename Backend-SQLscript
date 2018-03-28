@@ -117,9 +117,6 @@ CREATE TABLE Jobs (
 	outtime TIME,
 	PRIMARY KEY (JID,EID)
 );
-
---select * from Roles;
-
 DROP TABLE if exists Permissions
 
 CREATE TABLE Permissions (
