@@ -67,10 +67,10 @@ CREATE TABLE Roles (
 	RID INT PRIMARY KEY,
 	roleslist VARCHAR(255)
 );
-INSERT INTO roles(RID, roleslist) VALUES (1, 'Employee');
-INSERT INTO roles(RID, roleslist) VALUES (2, 'Volunteer');
-INSERT INTO roles(RID, roleslist) VALUES (3, 'Adminstrator');
-INSERT INTO roles(RID, roleslist) VALUES (4, 'General User');
+INSERT INTO Roles(RID, roleslist) VALUES (1, 'Employee');
+INSERT INTO Roles(RID, roleslist) VALUES (2, 'Volunteer');
+INSERT INTO Roles(RID, roleslist) VALUES (3, 'Adminstrator');
+INSERT INTO Roles(RID, roleslist) VALUES (4, 'General User');
 
 CREATE TABLE Jobs (
 	JID INT,
@@ -93,16 +93,15 @@ CREATE TABLE Permissions (
     addUser CHAR,
     updateDB CHAR,
     viewAllUserInfo CHAR
-    
 );
 
-INSERT INTO permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) VALUES (1, 'Y', 'Y', 'Y', 'Y', 'N');
-INSERT INTO permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) VALUES (2, 'Y', 'N', 'Y', 'N', 'N');
-INSERT INTO permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) VALUES (3, 'Y', 'Y', 'Y', 'Y', 'Y');
-INSERT INTO permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) VALUES (4, 'Y', 'N', 'Y', 'N', 'N');
+INSERT INTO Permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) VALUES (1, 'Y', 'Y', 'Y', 'Y', 'N');
+INSERT INTO Permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) VALUES (2, 'Y', 'N', 'Y', 'N', 'N');
+INSERT INTO Permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) VALUES (3, 'Y', 'Y', 'Y', 'Y', 'Y');
+INSERT INTO Permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) VALUES (4, 'Y', 'N', 'Y', 'N', 'N');
 
 CREATE TABLE Last_Login (
-    PID INT,
-    lastlogin TIMESTAMP
+	PID INT PRIMARY KEY,    
+	lastlogin TIMESTAMP
 );
 
