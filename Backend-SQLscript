@@ -1,75 +1,17 @@
-Create table UserName(
-    PID int,
-    LastName varchar(255),
-    FirstName varchar(255),
+CREATE TABLE UserName(
+    PID INT AUTO_INCREMENT,
+    LastName VARCHAR(255),
+    FirstName VARCHAR(255),
     PRIMARY KEY (PID) 
 );
 
-Create table Userpassword(
-    PID int,
-    password varchar(255),
+CREATE TABLE UserPassword(
+    PID INT,
+    password VARCHAR(255),
     PRIMARY KEY (PID)
 );
 
---Erick's Table 
-CREATE TABLE EVENT 
-(EID INT, 
-FIRSTNAME VARCHAR(50), 
-LASTNAME VARCHAR(50), 
-DATE DATE PRIMARY KEY, 
-ADDRESS VARCHAR(30),
-CITY VARCHAR(20),
-STATE VARCHAR(20)
-PRIMARY KEY (EID));
-
-CREATE TABLE EVENTROSTER
-(EID INT,
-PID INT,
-PRIMARY KEY(PID),
-PRIMARY KEY(EID)); 
-
-CREATE TABLE CONTRIBUTIONS
-(EID INT, 
-PID INT, 
-AMOUNT MONEY,
-PRIMARY KEY (PID),
-PRIMARY KEY(EID)); 
---End of Erick's Table 
-
--- Ahsan's Table
-drop table if exists roles;
-
-create table roles (
-
-	rid int primary key,
-	roleslist varchar
-
-);
-
-create table jobs (
-
-	jid int primary key,
-	eid int,
-	pid int, 
-	title varchar,
-	intime time,
-	outtime time
-
-);
-
-insert into roles(rid, roleslist) values (1, 'Employee');
-insert into roles(rid, roleslist) values (2, 'Volunteer');
-insert into roles(rid, roleslist) values (3, 'Adminstrator');
-insert into roles(rid, roleslist) values (4, 'General User');
-
---select * from roles;
--- end Ahsan's Tables
-
-
--- Jason's Tables
-drop table if exists userInfo
-
-create table userInfo (
+CREATE TABLE UserInfo (
     PID int,
     address varchar,
     phoneNumber varchar,
@@ -83,9 +25,65 @@ insert into userInfo(PID, address, phoneNumber, userEmail, RID) values (003, '43
 insert into userInfo(PID, address, phoneNumber, userEmail, RID) values (9999, '34 Random Ave.', '518-009-8877', "rando@email.com", 4);
 
 
-drop table if exists permissions
+--Erick's Table 
+CREATE TABLE Event 
+(EID INT PRIMARY KEY, 
+FirstName VARCHAR(50), 
+LastName VARCHAR(50), 
+Date DATE PRIMARY KEY, 
+Address VARCHAR(30),
+City VARCHAR(20),
+State VARCHAR(20)
+);
 
-create table permissions (
+CREATE TABLE EventRoster
+(EID INT,
+PID INT,
+PRIMARY KEY(PID),
+PRIMARY KEY(EID)); 
+
+CREATE TABLE Contributions
+(EID INT, 
+PID INT, 
+Amount MONEY,
+PRIMARY KEY (PID),
+PRIMARY KEY(EID)); 
+--End of Erick's Table 
+
+-- Ahsan's Table
+drop table if exists roles;
+
+CREATE TABLE Roles (
+	RID INT PRIMARY KEY,
+	roleslist VARCHAR(255)
+);
+
+CREATE TABLE Jobs (
+	JID INT PRIMARY KEY,
+	EID INT,
+	PID IND, 
+	title VARCHAR(255),
+	intime TIME,
+	outtime TIME
+);
+
+insert into roles(rid, roleslist) values (1, 'Employee');
+insert into roles(rid, roleslist) values (2, 'Volunteer');
+insert into roles(rid, roleslist) values (3, 'Adminstrator');
+insert into roles(rid, roleslist) values (4, 'General User');
+
+--select * from Roles;
+-- end Ahsan's Tables
+
+
+-- Jason's Tables
+DROP TABLE if exists UserInfo
+
+
+
+DROP TABLE if exists Permissions
+
+CREATE TABLE Permissions (
     RID int,
     read char,
     edit char,
@@ -99,8 +97,8 @@ insert into permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) val
 insert into permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) values (3, 'Y', 'Y', 'Y', 'Y', 'Y');
 insert into permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) values (4, 'Y', 'N', 'Y', 'N', 'N');
 
-create table last_login (
-    PID integer NOT NULL,
-    lastlogin timestamp without time zone
+CREATE TABLE Last_Login (
+    PID INT,
+    lastlogin TIMESTAMP
 );
 -- end Jason's tables JPN
