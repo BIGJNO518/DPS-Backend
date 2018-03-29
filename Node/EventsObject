@@ -1,0 +1,19 @@
+app.use(function(req, res, next){
+	global.connection = mysql.createConnection({
+		host     : 'localhost',
+		user     : 'root',
+		password : 'Saracon123 ',
+		database : 'DPS_Backend'
+	});
+	connection.connect();
+	next();
+});
+app.use('/', index);
+app.use('/api/events, Events);
+
+router.get('/', function(req, res, next) {
+	res.locals.connection.query('SELECT * from Events', function (error, results, fields) {
+		if (error) throw error;
+		res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+	});
+});
