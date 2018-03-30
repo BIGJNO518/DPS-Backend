@@ -22,9 +22,27 @@ con.connect(function (err) {
     console.log('Connected!');
 })
 var userRouter = require('./app/routers/userRoutes.js')(con);
+var eventRouter = require('./app/routers/eventRoutes.js')(con);
+
+// Check if authentication token has expired, if it has strip it off.
+app.use(function (req, res, next) {
+    var token = req.headers.authentication;
+    if (!token) {
+        next();
+        return;
+    }
+    con.query("SELECT expires FROM sessions WHERE token='" + token + "'", function (err, result, fields) {
+        if (result[0].expires < new Date()) {
+            delete req.headers.authentication;
+        };
+        next();
+        return;
+    })
+});
 
 // all of our routes will be prefixed with /api
 app.use('/api/user', userRouter);
+app.use('/api/events', eventRouter);
 
 // START THE SERVER
 // =============================================================================

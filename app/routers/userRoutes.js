@@ -80,10 +80,38 @@ var routes = function (con) {
         })
     });
 
-    // // Update user information
-    // userRouter.put('/', function (req, res) {
+    // Update user information
+    userRouter.put('/', function (req, res) {
+        var token = req.headers.authentication;
+        if (!token) {
+            res.status(401).send("Unauthorized");
+            return;
+        }
 
-    // })
+        async.waterfall([
+            async.apply(getUserFromToken, token),
+            function (user, callback) {
+                // Check if this person is authorized to make this change
+                if (req.headers.id == user.user.ID || user.permissions.admin) {
+                    user.user.name = req.headers.name;
+                    user.user.email = req.headers.email;
+                    user.user.phoneNumber = req.headers.phonenumber;
+                    callback(null, user)
+                    return;
+                }
+                res.status(401).send("Unauthorized");
+                return;
+            },
+            function (user, callback) {
+                con.query("UPDATE users SET name='" + user.user.name + "', email='" + user.user.email + "', phoneNumber='" + user.user.phoneNumber + "' WHERE ID=" + 
+                  user.user.ID + ";", function (err, result, fields) {
+                    callback(null, user);
+                });
+            }
+        ], function (err, results) {
+            res.send(JSON.stringify(results));
+        });
+    })
 
     function getUser(email, password, callback) {
         con.query("SELECT * FROM users INNER JOIN permissions ON users.ID=permissions.ID WHERE email = '" + email + "' AND password = MD5('" + password + "')", function (err, result, fields) {
@@ -110,7 +138,7 @@ var routes = function (con) {
     };
 
     function updateToken(user, callback) {
-        con.query("UPDATE sessions token=MD5(" + user.user.ID +" + NOW()), expires=DATE_ADD(NOW(), INTERVAL 30 DAY)) WHERE ID=" + user.user.ID + ";", function (err, result, fields) {
+        con.query("UPDATE sessions SET token=MD5(" + user.user.ID +" + NOW()), expires=DATE_ADD(NOW(), INTERVAL 30 DAY) WHERE ID=" + user.user.ID + ";", function (err, result, fields) {
             callback(null, user);
         });
     };
@@ -123,18 +151,30 @@ var routes = function (con) {
             user.authentication = result[0].token;
             callback(null, user);
         })
+    };
+
+    function getUserFromToken(token, callback) {
+        con.query("SELECT * FROM sessions INNER JOIN users ON sessions.ID=users.ID INNER JOIN permissions ON sessions.ID=permissions.ID WHERE sessions.token='" + 
+          token + "';", function (err, result, fields) {
+            var user = {
+                user: {
+                    ID: result[0].ID,
+                    name: result[0].name,
+                    email: result[0].email,
+                    phoneNumber: result[0].phoneNumber
+                },
+                permissions: {
+                    admin: result[0].admin,
+                    employee: result[0].employee,
+                    volunteer: result[0].volunteer,
+                    developer: result[0].developer
+                }
+            };
+            callback(null, user);
+        });
     }
 
     return userRouter;
 };
-
-
-
-// function getToken(id) {
-//     // Update sessions table
-//     con.query("UPDATE sessions token=MD5(" + user.ID +" + NOW()), expires=DATE_ADD(NOW(), INTERVAL 30 DAY)) WHERE ID=" + user.ID + ";", function (err, result, fields) {
-//         console.log(result);
-//     });
-// }
 
 module.exports = routes;
