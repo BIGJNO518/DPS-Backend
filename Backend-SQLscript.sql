@@ -27,8 +27,7 @@ INSERT INTO Users(PID, LastName, FirstName, address, phoneNumber, userEmail, RID
 DROP TABLE IF EXISTS Event;
 CREATE TABLE Event (
 	EID INT, 
-	FirstName VARCHAR(50), 
-	LastName VARCHAR(50), 
+	eventName VARCHAR(50), 
 	Date DATE, 
 	Address VARCHAR(30),
 	City VARCHAR(20),
@@ -36,16 +35,16 @@ CREATE TABLE Event (
 	PRIMARY KEY(EID,Date)
 );
 
-INSERT INTO Event(EID, FirstName, LastName, Date, Address, City, State) VALUES(001, 'Erick', 'Salas', '2014-04-01', '2 This ave', 'Nowear', 'Alter');
-INSERT INTO Event(EID, FirstName, LastName, Date, Address, City, State) VALUES(002, 'Thinge', 'Won', '2012-02-05', 'Single st', 'Once', 'Ohio');
-INSERT INTO Event(EID, FirstName, LastName, Date, Address, City, State) VALUES(003, 'Thing', 'Twou', '1997-08-02', 'Mono', 'Harlem', 'New York');
-INSERT INTO Event(EID, FirstName, LastName, Date, Address, City, State) VALUES(004, 'Christ', 'Jesus', '0001-01-01', 'Jerus av', 'Truths', 'News');
-INSERT INTO Event(EID, FirstName, LastName, Date, Address, City, State) VALUES(005, 'Gero', 'Cornell', '1980-09-12', '2 This ave', 'Nowear', 'Alter');
-INSERT INTO Event(EID, FirstName, LastName, Date, Address, City, State) VALUES(006, 'Smort', 'Ace', '2010-06-05', '2 This ave', 'Nowear', 'Alter');
-INSERT INTO Event(EID, FirstName, LastName, Date, Address, City, State) VALUES(999, 'NULL', 'NULL', '1899-01-01', 'NULL', 'NULL', 'NULL');
+INSERT INTO Event(EID, eventName, Date, Address, City, State) VALUES(001, 'Save the Planet', '2014-04-01', '2 This ave', 'Nowear', 'Alter');
+INSERT INTO Event(EID, eventName, Date, Address, City, State) VALUES(002, 'Save the Animals', '2012-02-05', 'Single st', 'Once', 'Ohio');
+INSERT INTO Event(EID, eventName, Date, Address, City, State) VALUES(003, 'Save the Food', '1997-08-02', 'Mono', 'Harlem', 'New York');
+INSERT INTO Event(EID, eventName, Date, Address, City, State) VALUES(004, 'Save the People', '0001-01-01', 'Jerus av', 'Truths', 'News');
+INSERT INTO Event(EID, eventName, Date, Address, City, State) VALUES(005, 'Science for the future', '1980-09-12', '2 This ave', 'Nowear', 'Alter');
+INSERT INTO Event(EID, eventName, Date, Address, City, State) VALUES(006, 'Think about the Children', '2010-06-05', '2 This ave', 'Nowear', 'Alter');
+INSERT INTO Event(EID, eventName, Date, Address, City, State) VALUES(999, 'NULL', '1899-01-01', 'NULL', 'NULL', 'NULL');
 
-DROP TABLE IF EXISTS EventRoster;
-CREATE TABLE EventRoster(
+DROP TABLE IF EXISTS Volunteers;
+CREATE TABLE Volunteers(
 	EID INT,
 	PID INT,
 	PRIMARY KEY(PID,EID)
@@ -115,7 +114,7 @@ INSERT INTO Permissions(RID, view, edit, addUser, updateDB, viewAllUserInfo) VAL
 INSERT INTO Permissions(RID, view, edit, addUser, updateDB, viewAllUserInfo) VALUES (3, 'Y', 'Y', 'Y', 'Y', 'Y');
 INSERT INTO Permissions(RID, view, edit, addUser, updateDB, viewAllUserInfo) VALUES (4, 'Y', 'N', 'Y', 'N', 'N');
 
-
+DROP TABLE IF EXISTS Sessions;
 CREATE TABLE Sessions (
 	SID INT NOT NULL AUTO_INCREMENT,
 	token VARCHAR(32) NOT NULL UNIQUE, 
