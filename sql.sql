@@ -29,6 +29,7 @@ CREATE TABLE `events` (
 	`startTime` DATETIME NOT NULL,
 	`endTime` DATETIME NOT NULL,
 	`description` VARCHAR(255) NOT NULL,
+	`isDeleted` BOOLEAN NOT NULL,
 	PRIMARY KEY (`ID`)
 );
 

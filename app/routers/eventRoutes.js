@@ -4,12 +4,14 @@ var async = require('async');
 var routes = function (con) {
     var eventRouter = express.Router();
 
+    // Get all events
     eventRouter.get('/', function (req, res) {
         con.query("SELECT * FROM events WHERE startTime > NOW()", function (err, result, fields) {
-            res.send(JSON.stringify(result));
+            res.json(result);
         });
     });
 
+    // Get single event
     eventRouter.get('/:eventId', function (req, res) {
         async.waterfall([
             async.apply(getPermissionFromToken, req.params.authentication),
@@ -27,7 +29,51 @@ var routes = function (con) {
                 }
             }
             delete results.permissions;
-            res.send(JSON.stringify(results));
+            res.json(results);
+        });
+    });
+
+    // Update/Add event
+    eventRouter.put('/', function (req, res) {
+        if (!req.headers.authentication) {
+            res.status(401).send('Unauthorized');
+            return;
+        }
+        var event = {
+            id: req.body.id,
+            name: req.body.name,
+            startTime: +req.body.startTime,
+            endTime: +req.body.endTime,
+            description: req.body.description
+        };
+        async.waterfall([
+            async.apply(getPermissionFromToken, req.headers.authentication)
+        ], function (err, results) {
+            // Check if permitted to make change
+            if (results.permissions.admin != 1) {
+                res.status(401).send('Unauthorized');
+                return;
+            }
+            // Check event is properly formatted
+            // TODO
+
+            // If the ID is -1, it an insert. If it's anything else it's an update.
+            if (event.id == -1) {
+                con.query("INSERT INTO events (name, startTime, endTime, description) VALUE ('" + event.name + "', from_unixtime(FLOOR(" + 
+                  event.startTime + "/1000)), from_unixtime(FLOOR(" + event.endTime + "/1000)), '" + event.description + "');", function (err, result, fields) {
+                    event.id = result.insertId;
+                    res.json(event);
+                });
+            } else {
+                con.query("UPDATE events SET name='" + event.name + "', startTime=from_unixtime(FLOOR(" + 
+                  event.startTime + "/1000)), endTime=from_unixtime(FLOOR(" + event.endTime + "/1000)), description='" + 
+                  event.description + "' WHERE id=" + event.id + ";", function (err, result, fields) {
+                    if (err) {
+                        res.status(500).send('Error updating event');
+                    }
+                    res.json(event)
+                  });
+            }
         });
     });
 
@@ -37,7 +83,7 @@ var routes = function (con) {
             return;
         }
         con.query("SELECT * FROM sessions INNER JOIN permissions ON sessions.ID=permissions.ID WHERE sessions.token='" + token + "';", function (err, result, fields) {
-            callback(null, {permissions: {admin: result.admin, employee: result.employee, volunteer: result.volunteer, developer: result.developer}});
+            callback(null, {permissions: {admin: result[0].admin, employee: result[0].employee, volunteer: result[0].volunteer, developer: result[0].developer}});
             return;
         });
     };

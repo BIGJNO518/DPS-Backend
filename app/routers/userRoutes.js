@@ -13,7 +13,7 @@ var routes = function (con) {
             getToken
         ], function (err, results) {
             console.log(results); 
-            res.send(JSON.stringify(results));
+            res.json(results);
         });
     });
 
@@ -76,7 +76,7 @@ var routes = function (con) {
             if (err) {
                 res.send(err);
             }
-            res.send(results);
+            res.json(results);
         })
     });
 
@@ -109,7 +109,7 @@ var routes = function (con) {
                 });
             }
         ], function (err, results) {
-            res.send(JSON.stringify(results));
+            res.json(results);
         });
     })
 
