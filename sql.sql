@@ -3,7 +3,7 @@ CREATE TABLE `users` (
 	`name` VARCHAR(255) NOT NULL,
 	`email` VARCHAR(255) NOT NULL,
 	`phoneNumber` VARCHAR(255) NOT NULL,
-	`password` varchar(32) NOT NULL,
+	`password` blob NOT NULL,
 	PRIMARY KEY (`ID`)
 );
 
@@ -18,7 +18,7 @@ CREATE TABLE `permissions` (
 	`ID` INT NOT NULL AUTO_INCREMENT,
 	`admin` BOOLEAN NOT NULL,
 	`employee` BOOLEAN NOT NULL,
-	`volunteer` BOOLEAN NOT NULL DEFAULT 'true',
+	`volunteer` BOOLEAN NOT NULL DEFAULT True,
 	`developer` BOOLEAN NOT NULL,
 	PRIMARY KEY (`ID`)
 );
