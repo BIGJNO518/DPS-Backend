@@ -98,9 +98,8 @@ var routes = function (con) {
 
     // BEEFY call, better way to do this?
     function getJobs(eventId, obj, callback) {
-        con.query("SELECT jobs.ID, jobs.name, jobs.startTime, jobs.endTime, users.ID AS uid, users.name AS username, users.email " +
-          "FROM jobs LEFT OUTER JOIN volunteers ON volunteers.jid=jobs.id LEFT OUTER JOIN users ON volunteers.uid=users.ID " +
-          "WHERE jobs.eid=" + eventId + ";", function (err, result, fields) {
+        con.query("SELECT * FROM jobs inner JOIN (Select id ,name, email FROM users) AS users ON users.id=jobs.uid " + 
+        "WHERE jobs.eid=" + eventId + ";", function (err, result, fields) {
               obj.event.jobs = [];
               for (var i = 0; i < result.length; i++) {
                     var thisJob = {
