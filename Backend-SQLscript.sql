@@ -1,30 +1,25 @@
-DROP DATABASE DPSbackend;
-CREATE DATABASE DPSbackend;
+DROP DATABASE IF EXISTS dpsbackend;
+CREATE DATABASE dpsbackend;
 
-DROP IF EXISTS TABLE UserName;
+SELECT dpsbackend;
+
+DROP TABLE IF EXISTS UserName;
 CREATE TABLE UserName(
     PID INT AUTO_INCREMENT,
     LastName VARCHAR(255),
     FirstName VARCHAR(255),
     PRIMARY KEY (PID) 
 );
-INSERT INTO UserName(PID, LastName, FirstName) VALUES (001, 'Ganoush', 'Baba' ); 
-INSERT INTO UserName(PID, LastName, FirstName) VALUES (002, 'Lovelace', 'Betty' ); 
-INSERT INTO UserName(PID, LastName, FirstName) VALUES (003, 'Jordan', 'Hal' ); 
-INSERT INTO UserName(PID, LastName, FirstName) VALUES (004, 'Wiggen', 'Ender' ); 
-INSERT INTO UserName(PID, LastName, FirstName) VALUES (005, 'Arkanian', 'Petra' ); 
-INSERT INTO UserName(PID, LastName, FirstName) VALUES (006, 'Wiggin', 'Peter' );
-INSERT INTO UserName(PID, LastName, FirstName) VALUES (999, 'User', 'General' ); 
 
 
-DROP IF EXISTS TABLE UserPassword;
+DROP TABLE IF EXISTS UserPassword;
 CREATE TABLE UserPassword(
     PID INT,
     password VARCHAR(255),
     PRIMARY KEY (PID)
 );
 
-DROP IF EXISTS TABLE UserInfo;
+DROP TABLE IF EXISTS UserInfo;
 CREATE TABLE UserInfo (
     PID INT,
     address VARCHAR(255),
@@ -39,11 +34,11 @@ INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (002, '37
 INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (003, '43 Lantern St.', '518-889-0099', 'GreenBaby@DC_Uni.com', 2); 
 INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (004, 'BattleSchool, Lusitania', '518-009-8877', 'xenocide@email.com', 3);
 INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (005, 'Athens, Greece', '765-957-9009', 'beannme@email.com', 2);
-INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (006, 'Greensboro, NC', '800-HEGEMON', 'Hegemon@offices.earthgov,, 3);
+INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (006, 'Greensboro, NC', '800-HEGEMON', 'Hegemon@offices.earthgov', 3);
 INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (999, 'NULL', 'NULL', 'NULL', 4);
 
 
-DROP IF EXISTS TABLE Event;
+DROP TABLE IF EXISTS Event;
 CREATE TABLE Event 
 (EID INT, 
 FirstName VARCHAR(50), 
@@ -63,7 +58,7 @@ INSERT INTO Event(EID, FirstName, LastName, Date, Address, City, State) VALUES(0
 INSERT INTO Event(EID, FirstName, LastName, Date, Address, City, State) VALUES(006, 'Smort', 'Ace', '2010-06-051', '2 This ave', 'Nowear', 'Alter');
 INSERT INTO Event(EID, FirstName, LastName, Date, Address, City, State) VALUES(999, 'NULL', 'NULL', '0000-00-00', 'NULL', 'NULL', 'NULL');
 
-DROP IF EXISTS TABLE EventRoster;
+DROP TABLE IF EXISTS EventRoster;
 CREATE TABLE EventRoster
 (EID INT,
 PID INT,
@@ -79,20 +74,20 @@ INSERT INTO EventRoster(EID, PID) VALUES(006, 006);
 INSERT INTO EventRoster(EID, PID) VALUES(999, 999);
 
 
-DROP IF EXISTS TABLE Contributions;
+DROP TABLE IF EXISTS Contributions;
 CREATE TABLE Contributions
 (EID INT, 
 PID INT, 
-Amount MONEY,
+Amount DECIMAL,
 PRIMARY KEY (PID,EID)
 ); 
 
-INSERT INTO Contribution(EID, PID, Amount) VALUES(001, 001, $1000.00);
-INSERT INTO Contribution(EID, PID, Amount) VALUES(002, 002, $421.20);
-INSERT INTO Contribution(EID, PID, Amount) VALUES(003, 003, $2222.22);
-INSERT INTO Contribution(EID, PID, Amount) VALUES(004, 004, $1.01);
-INSERT INTO Contribution(EID, PID, Amount) VALUES(005, 005, $0.01);
-INSERT INTO Contribution(EID, PID, Amount) VALUES(006, 006, $100000.10);
+INSERT INTO Contribution(EID, PID, Amount) VALUES(001, 001, 1000.00);
+INSERT INTO Contribution(EID, PID, Amount) VALUES(002, 002, 421.20);
+INSERT INTO Contribution(EID, PID, Amount) VALUES(003, 003, 2222.22);
+INSERT INTO Contribution(EID, PID, Amount) VALUES(004, 004, 1.01);
+INSERT INTO Contribution(EID, PID, Amount) VALUES(005, 005, 0.01);
+INSERT INTO Contribution(EID, PID, Amount) VALUES(006, 006, 100000.10);
 INSERT INTO Contribution(EID, PID, Amount) VALUES(999, 999, NULL);
 
 
@@ -117,21 +112,18 @@ CREATE TABLE Jobs (
 	outtime TIME,
 	PRIMARY KEY (JID,EID)
 );
-DROP TABLE if exists Permissions
+DROP TABLE if exists Permissions;
 
 CREATE TABLE Permissions (
     RID INT PRIMARY KEY,
-    read CHAR,
-    edit CHAR,
-    addUser CHAR,
-    updateDB CHAR,
-    viewAllUserInfo CHAR
+    readPerm CHAR,
+    editPerm CHAR,
+    addUserPerm CHAR,
+    updateDBPerm CHAR,
+    viewAllUserInfoPerm CHAR
 );
 
-INSERT INTO Permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) VALUES (1, 'Y', 'Y', 'Y', 'Y', 'N');
-INSERT INTO Permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) VALUES (2, 'Y', 'N', 'Y', 'N', 'N');
-INSERT INTO Permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) VALUES (3, 'Y', 'Y', 'Y', 'Y', 'Y');
-INSERT INTO Permissions(RID, read, edit, addUser, updateDB, viewAllUserInfo) VALUES (4, 'Y', 'N', 'Y', 'N', 'N');
-
-
-
+INSERT INTO Permissions(RID, readPerm, editPerm, addUserPerm, updateDBPerm, viewAllUserInfoPerm) VALUES (1, 'Y', 'Y', 'Y', 'Y', 'N');
+INSERT INTO Permissions(RID, readPerm, editPerm, addUserPerm, updateDBPerm, viewAllUserInfoPerm) VALUES (2, 'Y', 'N', 'Y', 'N', 'N');
+INSERT INTO Permissions(RID, readPerm, editPerm, addUserPerm, updateDBPerm, viewAllUserInfoPerm) VALUES (3, 'Y', 'Y', 'Y', 'Y', 'Y');
+INSERT INTO Permissions(RID, readPerm, editPerm, addUserPerm, updateDBPerm, viewAllUserInfoPerm) VALUES (4, 'Y', 'N', 'Y', 'N', 'N');

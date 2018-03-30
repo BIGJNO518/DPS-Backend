@@ -4,8 +4,8 @@ This will be the constructive repository for the Database portion of our Web-bas
 ### Development Steps
 1. Install NodeJS
 2. Open terminal and navigate to project root (Contains file `package.json`)
-3. type command `npm install` to install all the dependencies for the project.
-4. 
+3. Type command `npm install` to install all the dependencies for the project.
+4. Type command `npm start` to begin the server in watch mode. The server will restart if you change any file! So you don't need to 
 
 
 Nico Was here
