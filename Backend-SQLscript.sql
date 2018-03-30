@@ -58,6 +58,7 @@ INSERT INTO Event(EID, FirstName, LastName, Date, Address, City, State) VALUES(0
 INSERT INTO Event(EID, FirstName, LastName, Date, Address, City, State) VALUES(006, 'Smort', 'Ace', '2010-06-051', '2 This ave', 'Nowear', 'Alter');
 INSERT INTO Event(EID, FirstName, LastName, Date, Address, City, State) VALUES(999, 'NULL', 'NULL', '0000-00-00', 'NULL', 'NULL', 'NULL');
 
+
 DROP TABLE IF EXISTS EventRoster;
 CREATE TABLE EventRoster
 (EID INT,
@@ -91,27 +92,40 @@ INSERT INTO Contribution(EID, PID, Amount) VALUES(006, 006, 100000.10);
 INSERT INTO Contribution(EID, PID, Amount) VALUES(999, 999, NULL);
 
 
-
 DROP TABLE if exists Roles;
-
 CREATE TABLE Roles (
 	RID INT PRIMARY KEY,
 	roleslist VARCHAR(255)
 );
+
 INSERT INTO Roles(RID, roleslist) VALUES (1, 'Employee');
 INSERT INTO Roles(RID, roleslist) VALUES (2, 'Volunteer');
 INSERT INTO Roles(RID, roleslist) VALUES (3, 'Adminstrator');
 INSERT INTO Roles(RID, roleslist) VALUES (4, 'General User');
 
+DROP TABLE if exists Jobs;
 CREATE TABLE Jobs (
 	JID INT,
 	EID INT,
 	PID INT, 
 	title VARCHAR(255),
-	intime TIME,
-	outtime TIME,
+	intime TIME null,
+	outtime TIME null,
 	PRIMARY KEY (JID,EID)
 );
+
+INSERT INTO Jobs(JID, EID, PID, title, intime, outtime) VALUES (001, 001, 006, 'Teacher', '06:00:00', '14:00:00');
+INSERT INTO Jobs(JID, EID, PID, title, intime, outtime) VALUES (002, 002, 003, 'Events Organizer', '08:00:00', '16:00:00');
+INSERT INTO Jobs(JID, EID, PID, title, intime, outtime) VALUES (003, 004, 001, 'Tutor', '16:00:00', '00:00:00');
+INSERT INTO Jobs(JID, EID, PID, title, intime, outtime) VALUES (004, 003, 005, 'Youth Work', '07:00:00', '15:00:00');
+INSERT INTO Jobs(JID, EID, PID, title, intime, outtime) VALUES (005, 001, 004, 'Deliver Goods', '4:00:00', '12:00:00');
+INSERT INTO Jobs(JID, EID, PID, title, intime, outtime) VALUES (006, 006, 002, 'Cook', '06:00:00', '14:00:00');
+INSERT INTO Jobs(JID, EID, PID, title, intime, outtime) VALUES (007, 002, 005, 'Coaching', '07:00:00', '15:00:00');
+INSERT INTO Jobs(JID, EID, PID, title, intime, outtime) VALUES (008, 004, 003, 'Car Pool', '10:00:00', '18:00:00');
+INSERT INTO Jobs(JID, EID, PID, title, intime, outtime) VALUES (009, 001, 002, 'Clerk', '06:00:00', '14:00:00');
+INSERT INTO Jobs(JID, EID, PID, title, intime, outtime) VALUES (010, 004, 001, 'Music Lessons', '05:00:00', '13:00:00');
+
+
 DROP TABLE if exists Permissions;
 
 CREATE TABLE Permissions (
