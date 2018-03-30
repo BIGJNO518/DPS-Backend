@@ -18,12 +18,12 @@ INSERT INTO UserName(PID, LastName, FirstName) VALUES (006, 'Wiggin', 'Peter' );
 INSERT INTO UserName(PID, LastName, FirstName) VALUES (999, 'User', 'General' ); 
 
 
-DROP TABLE IF EXISTS UserPassword;
-CREATE TABLE UserPassword(
-    PID INT,
-    password VARCHAR(255),
-    PRIMARY KEY (PID)
-);
+//DROP TABLE IF EXISTS UserPassword;
+//CREATE TABLE UserPassword(
+//    PID INT,
+//    password VARCHAR(255),
+//    PRIMARY KEY (PID)
+//);
 
 DROP TABLE IF EXISTS UserInfo;
 CREATE TABLE UserInfo (
@@ -31,17 +31,18 @@ CREATE TABLE UserInfo (
     address VARCHAR(255),
     phoneNumber VARCHAR(12),
     userEmail VARCHAR(255),
+    password BLOB, 
     RID INT, 
     last_login TIMESTAMP,
     PRIMARY KEY (PID)
 );
-INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (001, '34 Awesome Ave.', '518-775-7775', 'Yummy@food.com', 1); 
-INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (002, '37 Best Ave.', '518-665-8899', 'beez@email.com', 1);
-INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (003, '43 Lantern St.', '518-889-0099', 'GreenBaby@DC_Uni.com', 2); 
-INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (004, 'BattleSchool, Lusitania', '518-009-8877', 'xenocide@email.com', 3);
-INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (005, 'Athens, Greece', '765-957-9009', 'beannme@email.com', 2);
-INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (006, 'Greensboro, NC', '800-HEGEMON', 'Hegemon@offices.earthgov', 3);
-INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID) VALUES (999, 'NULL', 'NULL', 'NULL', 4);
+INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID, password) VALUES (001, '34 Awesome Ave.', '518-775-7775', 'Yummy@food.com', 1, AES_ENCRYPT(MD5('yummy'),UNHEX(SHA2('Timmy', 512)))); 
+INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID, password) VALUES (002, '37 Best Ave.', '518-665-8899', 'beez@email.com', 1,AES_ENCRYPT(MD5('worst'),UNHEX(SHA2('Spiders', 512)))); 
+INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID, password) VALUES (003, '43 Lantern St.', '518-889-0099', 'GreenBaby@DC_Uni.com', 2, AES_ENCRYPT(MD5('Green'),UNHEX(SHA2('Goblin', 512))));
+INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID, password) VALUES (004, 'BattleSchool, Lusitania', '518-009-8877', 'xenocide@email.com', 3,AES_ENCRYPT(MD5('peace'),UNHEX(SHA2('LandWorld', 512)))); 
+INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID, password) VALUES (005, 'Athens, Greece', '765-957-9009', 'beannme@email.com', 2,AES_ENCRYPT(MD5('utopia'),UNHEX(SHA2('NewYorkcity', 512)))); );
+INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID, password) VALUES (006, 'Greensboro, NC', '800-HEGEMON', 'Hegemon@offices.earthgov', 3,AES_ENCRYPT(MD5('Yellow'),UNHEX(SHA2('Townsville', 512)))); );
+INSERT INTO UserInfo(PID, address, phoneNumber, userEmail, RID, password) VALUES (999, 'NULL', 'NULL', 'NULL', 4,AES_ENCRYPT(MD5('NULL'),UNHEX(SHA2('NULL1', 512)))); );
 
 
 DROP TABLE IF EXISTS Event;
