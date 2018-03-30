@@ -114,3 +114,11 @@ INSERT INTO Permissions(RID, view, edit, addUser, updateDB, viewAllUserInfo) VAL
 INSERT INTO Permissions(RID, view, edit, addUser, updateDB, viewAllUserInfo) VALUES (2, 'Y', 'N', 'Y', 'N', 'N');
 INSERT INTO Permissions(RID, view, edit, addUser, updateDB, viewAllUserInfo) VALUES (3, 'Y', 'Y', 'Y', 'Y', 'Y');
 INSERT INTO Permissions(RID, view, edit, addUser, updateDB, viewAllUserInfo) VALUES (4, 'Y', 'N', 'Y', 'N', 'N');
+
+
+CREATE TABLE Sessions (
+	SID INT NOT NULL AUTO_INCREMENT,
+	token VARCHAR(32) NOT NULL UNIQUE, 
+	expires DATETIME NOT NULL, 
+	PRIMARY KEY (SID)
+	);
