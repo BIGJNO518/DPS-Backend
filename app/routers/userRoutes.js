@@ -44,8 +44,7 @@ var routes = function (con) {
                 con.query("INSERT INTO users (name, email, phoneNumber, password) VALUE ('" + 
                 user.user.name + "', '" + 
                 user.user.email + "', '" + 
-                user.user.phoneNumber + "', MD5('" + 
-                user.user.password +"'));", function (err, result, fields) {
+                user.user.phoneNumber + "', AES_ENCRYPT(MD5('" + user.user.password + "'), UNHEX(SHA2('SecretDPSPassphrase', 512))));", function (err, result, fields) {
                     if (err) {
                         callback(err, null);
                     }
@@ -115,7 +114,7 @@ var routes = function (con) {
     })
 
     function getUser(email, password, callback) {
-        con.query("SELECT * FROM users INNER JOIN permissions ON users.ID=permissions.ID WHERE email = '" + email + "' AND password = MD5('" + password + "')", function (err, result, fields) {
+        con.query("SELECT * FROM users INNER JOIN permissions ON users.ID=permissions.ID WHERE email = '" + email + "' AND password = AES_ENCRYPT(MD5('" + password + "'), UNHEX(SHA2('SecretDPSPassphrase', 512)))", function (err, result, fields) {
             if (err) {
                 callback(err, null);
                 return;
