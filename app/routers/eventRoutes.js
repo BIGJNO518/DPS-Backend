@@ -14,7 +14,7 @@ var routes = function (con) {
     // Get single event
     eventRouter.get('/:eventId', function (req, res) {
         async.waterfall([
-            async.apply(getPermissionFromToken, req.params.authentication),
+            async.apply(getPermissionFromToken, req.headers.authentication),
             async.apply(getEvent, req.param('eventId')),
             async.apply(getJobs, req.param('eventId'))
         ], function (err, results) {

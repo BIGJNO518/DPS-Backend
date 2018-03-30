@@ -35,6 +35,7 @@ var routes = function (con) {
                 con.query("SELECT * FROM users WHERE email = '" + user.user.email + "'", function (err, result, fields) {
                     if (result.length > 0) {
                         res.status(500).send('Already registered!');
+                        return;
                     }
                     callback(null, user)
                 })
