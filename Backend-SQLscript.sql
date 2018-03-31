@@ -16,50 +16,18 @@ CREATE TABLE Users (
     PRIMARY KEY (PID)
 );
 
-DROP TABLE IF EXISTS Event;
-CREATE TABLE Event (
-	EID INT, 
-	eventName VARCHAR(50), 
-	Date DATE, 
-	Address VARCHAR(30),
-	City VARCHAR(20),
-	State VARCHAR(20),
-	PRIMARY KEY(EID,Date)
-);
-
-DROP TABLE IF EXISTS Volunteers;
-CREATE TABLE Volunteers(
-	EID INT,
-	PID INT,
-	PRIMARY KEY(PID,EID)
-); 
-
-
-DROP TABLE IF EXISTS Contributions;
-CREATE TABLE Contributions(
-	EID INT, 
-	PID INT, 
-	Amount   DECIMAL(13, 2),
-	PRIMARY KEY (PID,EID)
-); 
-
-
+DROP TABLE IF EXISTS Sessions;
+CREATE TABLE Sessions (
+	SID INT NOT NULL AUTO_INCREMENT,
+	token VARCHAR(32) NOT NULL UNIQUE, 
+	expires DATETIME NOT NULL, 
+	PRIMARY KEY (SID)
+	);
 
 DROP TABLE IF EXISTS Roles;
 CREATE TABLE Roles (
 	RID INT PRIMARY KEY,
 	roleslist VARCHAR(255)
-);
-
-DROP TABLE IF EXISTS Jobs;
-CREATE TABLE Jobs (
-	JID INT,
-	EID INT,
-	PID INT, 
-	title VARCHAR(255),
-	intime TIME,
-	outtime TIME,
-	PRIMARY KEY (JID,EID)
 );
 
 DROP TABLE IF EXISTS Permissions;
@@ -73,13 +41,37 @@ CREATE TABLE Permissions(
     PRIMARY KEY (RID)
 );
 
-DROP TABLE IF EXISTS Sessions;
-CREATE TABLE Sessions (
-	SID INT NOT NULL AUTO_INCREMENT,
-	token VARCHAR(32) NOT NULL UNIQUE, 
-	expires DATETIME NOT NULL, 
-	PRIMARY KEY (SID)
-	);
+DROP TABLE IF EXISTS Events;
+CREATE TABLE Events (
+	EID INT, 
+	eventName VARCHAR(50), 
+	startTime DATE, 
+	endTime DATE,
+	Address VARCHAR(30),
+	City VARCHAR(20),
+	State VARCHAR(20),
+	PRIMARY KEY(EID,Date)
+);
+
+
+DROP TABLE IF EXISTS Contributions;
+CREATE TABLE Contributions(
+	EID INT, 
+	PID INT, 
+	Amount   DECIMAL(13, 2),
+	PRIMARY KEY (PID,EID)
+); 
+
+DROP TABLE IF EXISTS Jobs;
+CREATE TABLE Jobs (
+	JID INT,
+	EID INT,
+	PID INT, 
+	title VARCHAR(255),
+	intime TIME,
+	outtime TIME,
+	PRIMARY KEY (JID,EID)
+);
 	
 ALTER TABLE `sessions` ADD CONSTRAINT `sessions_fk0` FOREIGN KEY (`ID`) REFERENCES `users`(`ID`);
 
@@ -99,13 +91,13 @@ INSERT INTO Users(PID, LastName, FirstName, address, phoneNumber, userEmail, RID
 INSERT INTO Users(PID, LastName, FirstName, address, phoneNumber, userEmail, RID, password) VALUES (999, 'User', 'General', 'NULL', 'NULL', 'NULL', 4,AES_ENCRYPT(MD5('NULL'),UNHEX(SHA2('NULL1', 512)))); );
 
 
-INSERT INTO Event(EID, eventName, Date, Address, City, State) VALUES(001, 'Save the Planet', '2014-04-01', '2 This ave', 'Nowear', 'Alter');
-INSERT INTO Event(EID, eventName, Date, Address, City, State) VALUES(002, 'Save the Animals', '2012-02-05', 'Single st', 'Once', 'Ohio');
-INSERT INTO Event(EID, eventName, Date, Address, City, State) VALUES(003, 'Save the Food', '1997-08-02', 'Mono', 'Harlem', 'New York');
-INSERT INTO Event(EID, eventName, Date, Address, City, State) VALUES(004, 'Save the People', '0001-01-01', 'Jerus av', 'Truths', 'News');
-INSERT INTO Event(EID, eventName, Date, Address, City, State) VALUES(005, 'Science for the future', '1980-09-12', '2 This ave', 'Nowear', 'Alter');
-INSERT INTO Event(EID, eventName, Date, Address, City, State) VALUES(006, 'Think about the Children', '2010-06-05', '2 This ave', 'Nowear', 'Alter');
-INSERT INTO Event(EID, eventName, Date, Address, City, State) VALUES(999, 'NULL', '1899-01-01', 'NULL', 'NULL', 'NULL');
+INSERT INTO Event(EID, eventName, Date, Date, Address, City, State) VALUES(001, 'Save the Planet', '1899-01-01', '2014-04-01', '2 This ave', 'Nowear', 'Alter');
+INSERT INTO Event(EID, eventName, Date, Date, Address, City, State) VALUES(002, 'Save the Animals', '1899-01-01', '2012-02-05', 'Single st', 'Once', 'Ohio');
+INSERT INTO Event(EID, eventName, Date, Date, Address, City, State) VALUES(003, 'Save the Food', '1899-01-01', '1997-08-02', 'Mono', 'Harlem', 'New York');
+INSERT INTO Event(EID, eventName, Date, Date, Address, City, State) VALUES(004, 'Save the People', '1899-01-01', '0001-01-01', 'Jerus av', 'Truths', 'News');
+INSERT INTO Event(EID, eventName, Date, Date, Address, City, State) VALUES(005, 'Science for the future', '1899-01-01', '1980-09-12', '2 This ave', 'Nowear', 'Alter');
+INSERT INTO Event(EID, eventName, Date, Date, Address, City, State) VALUES(006, 'Think about the Children', '1899-01-01', '2010-06-05', '2 This ave', 'Nowear', 'Alter');
+INSERT INTO Event(EID, eventName, Date, Date, Address, City, State) VALUES(999, 'NULL', '1899-01-01', '1899-01-01', 'NULL', 'NULL', 'NULL');
 
 INSERT INTO EventRoster(EID, PID) VALUES(001, 001);
 INSERT INTO EventRoster(EID, PID) VALUES(002, 002);
