@@ -3,6 +3,10 @@ This will be the constructive repository for the Database portion of our Web-bas
 
 ### Deploying and using a SQL server
 1. Install mysql on to your computer. Download/Instruction can be found here https://dev.mysql.com/downloads/installer/
+2. Login using Command Terminal using this: mysql -u root -p
+3. Use password that was given to you during installation phase
+4. Enter the following: ALTER USER 'root'@'localhost' IDENTIFIED BY 'YourNewPassword';
+5. Last step to have a fully functional databse and tables: source < sql.sql
 
 
 ### Development Steps
