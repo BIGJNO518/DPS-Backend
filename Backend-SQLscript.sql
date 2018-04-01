@@ -73,13 +73,13 @@ CREATE TABLE Jobs (
 	PRIMARY KEY (ID)
 );
 	
-ALTER TABLE `sessions` ADD CONSTRAINT `sessions_fk0` FOREIGN KEY (`ID`) REFERENCES `users`(`ID`);
+ALTER TABLE `Sessions` ADD CONSTRAINT `sessions_fk0` FOREIGN KEY (`ID`) REFERENCES `users`(`ID`);
 
-ALTER TABLE `permissions` ADD CONSTRAINT `permissions_fk0` FOREIGN KEY (`ID`) REFERENCES `users`(`ID`);
+ALTER TABLE `Permissions` ADD CONSTRAINT `permissions_fk0` FOREIGN KEY (`ID`) REFERENCES `users`(`ID`);
 
-ALTER TABLE `jobs` ADD CONSTRAINT `jobs_fk0` FOREIGN KEY (`eid`) REFERENCES `events`(`ID`);
+ALTER TABLE `Jobs` ADD CONSTRAINT `jobs_fk0` FOREIGN KEY (`eid`) REFERENCES `Events`(`ID`);
 
-ALTER TABLE `jobs` ADD CONSTRAINT `jobs_fk1` FOREIGN KEY (`uid`) REFERENCES `users`(`ID`);
+ALTER TABLE `Jobs` ADD CONSTRAINT `jobs_fk1` FOREIGN KEY (`uid`) REFERENCES `Users`(`ID`);
 
 
 INSERT INTO Users(ID, LastName, FirstName, address, phoneNumber, userEmail, password, last_login) VALUES (001,'Ganoush', 'Baba', '34 Awesome Ave.', '518-775-7775', 'Yummy@food.com', 1, AES_ENCRYPT(MD5('yummy'),UNHEX(SHA2('Timmy', 512)))); 
