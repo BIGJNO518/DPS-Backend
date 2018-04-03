@@ -1,7 +1,7 @@
 CREATE DATABASE DPSBackend;
 USE DPSBackend;
 
-CREATE TABLE `users` (
+CREATE TABLE `Users` (
 	`ID` INT NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(255) NOT NULL,
 	`email` VARCHAR(255) NOT NULL,
@@ -10,14 +10,14 @@ CREATE TABLE `users` (
 	PRIMARY KEY (`ID`)
 );
 
-CREATE TABLE `sessions` (
+CREATE TABLE `Sessions` (
 	`ID` INT NOT NULL AUTO_INCREMENT,
 	`token` varchar(32) NOT NULL UNIQUE,
 	`expires` DATETIME NOT NULL,
 	PRIMARY KEY (`ID`)
 );
 
-CREATE TABLE `permissions` (
+CREATE TABLE `Permissions` (
 	`ID` INT NOT NULL AUTO_INCREMENT,
 	`admin` BOOLEAN NOT NULL,
 	`employee` BOOLEAN NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE `permissions` (
 	PRIMARY KEY (`ID`)
 );
 
-CREATE TABLE `events` (
+CREATE TABLE `Events` (
 	`ID` INT NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(255) NOT NULL,
 	`startTime` DATETIME NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE `events` (
 	PRIMARY KEY (`ID`)
 );
 
-CREATE TABLE `jobs` (
+CREATE TABLE `Jobs` (
 	`ID` INT NOT NULL AUTO_INCREMENT,
 	`eid` INT NOT NULL,
 	`name` VARCHAR(255) NOT NULL,
@@ -46,10 +46,10 @@ CREATE TABLE `jobs` (
 	PRIMARY KEY (`ID`)
 );
 
-ALTER TABLE `sessions` ADD CONSTRAINT `sessions_fk0` FOREIGN KEY (`ID`) REFERENCES `users`(`ID`);
+ALTER TABLE `Sessions` ADD CONSTRAINT `sessions_fk0` FOREIGN KEY (`ID`) REFERENCES `users`(`ID`);
 
-ALTER TABLE `permissions` ADD CONSTRAINT `permissions_fk0` FOREIGN KEY (`ID`) REFERENCES `users`(`ID`);
+ALTER TABLE `Permissions` ADD CONSTRAINT `permissions_fk0` FOREIGN KEY (`ID`) REFERENCES `users`(`ID`);
 
-ALTER TABLE `jobs` ADD CONSTRAINT `jobs_fk0` FOREIGN KEY (`eid`) REFERENCES `events`(`ID`);
+ALTER TABLE `Jobs` ADD CONSTRAINT `jobs_fk0` FOREIGN KEY (`eid`) REFERENCES `events`(`ID`);
 
-ALTER TABLE `jobs` ADD CONSTRAINT `jobs_fk1` FOREIGN KEY (`uid`) REFERENCES `users`(`ID`);
+ALTER TABLE `Jobs` ADD CONSTRAINT `jobs_fk1` FOREIGN KEY (`uid`) REFERENCES `users`(`ID`);
