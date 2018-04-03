@@ -4,8 +4,8 @@ USE DPSBackend;
 CREATE TABLE `Users` (
 	`ID` INT NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(255) NOT NULL,
-	`email` VARCHAR(255) NOT NULL,
 	`phoneNumber` VARCHAR(255) NOT NULL,
+	`email` VARCHAR(255) NOT NULL,
 	`password` blob NOT NULL,
 	PRIMARY KEY (`ID`)
 );
@@ -29,9 +29,9 @@ CREATE TABLE `Permissions` (
 CREATE TABLE `Events` (
 	`ID` INT NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(255) NOT NULL,
+	`description` VARCHAR(255) NOT NULL,
 	`startTime` DATETIME NOT NULL,
 	`endTime` DATETIME NOT NULL,
-	`description` VARCHAR(255) NOT NULL,
 	`isDeleted` BOOLEAN NOT NULL,
 	PRIMARY KEY (`ID`)
 );
@@ -39,7 +39,7 @@ CREATE TABLE `Events` (
 CREATE TABLE `Jobs` (
 	`ID` INT NOT NULL AUTO_INCREMENT,
 	`eid` INT NOT NULL,
-	`name` VARCHAR(255) NOT NULL,
+	`role` VARCHAR(255) NOT NULL,
 	`startTime` DATETIME NOT NULL,
 	`endTime` DATETIME NOT NULL,
 	`uid` INT NOT NULL,
