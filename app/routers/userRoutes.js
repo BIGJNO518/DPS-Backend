@@ -41,10 +41,10 @@ var routes = function (con) {
                 })
             }, user),
             function (user, callback) {
-                con.query("INSERT INTO users (name, email, phoneNumber, password) VALUE ('" + 
+                con.query("INSERT INTO users (name, phoneNumber, email, password) VALUE ('" + 
                 user.user.name + "', '" + 
-                user.user.email + "', '" + 
-                user.user.phoneNumber + "', AES_ENCRYPT(MD5('" + user.user.password + "'), UNHEX(SHA2('SecretDPSPassphrase', 512))));", function (err, result, fields) {
+                user.user.phoneNumber + "', '" + 
+                user.user.email + "', AES_ENCRYPT(MD5('" + user.user.password + "'), UNHEX(SHA2('SecretDPSPassphrase', 512))));", function (err, result, fields) {
                     if (err) {
                         callback(err, null);
                     }
@@ -103,7 +103,7 @@ var routes = function (con) {
                 return;
             },
             function (user, callback) {
-                con.query("UPDATE users SET name='" + user.user.name + "', email='" + user.user.email + "', phoneNumber='" + user.user.phoneNumber + "' WHERE ID=" + 
+                con.query("UPDATE users SET name='" + user.user.name + "', phoneNumber='" + user.user.phoneNumber + "', email='" + user.user.email + "' WHERE ID=" + 
                   user.user.ID + ";", function (err, result, fields) {
                     callback(null, user);
                 });
