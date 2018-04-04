@@ -12,9 +12,9 @@ app.use(bodyParser.json());
 var port = process.env.PORT || 8080;        // set our port or default to 8080
 var con = mysql.createConnection({
     host: 'localhost',
-    user: 'dps',
-    password: 'backend',
-    database: 'dpsbackend',
+    user: 'root',
+    password: 'gostorm2',
+    database: 'DPSbackend',
     multipleStatements: true
 });
 con.connect(function (err) {

@@ -38,8 +38,8 @@ var routes = function (con) {
 
     });
 
-        //place holder for adding jobs (Not Complete)
-    eventRouter.get('/unregister/:eventId/:jobId', function (req, res) {
+    //place holder for adding jobs (Not Complete)
+    eventRouter.get('/register/:eventId/:jobId', function (req, res) {
             
      });
     
@@ -115,7 +115,7 @@ var routes = function (con) {
         });
     };
 
-    // BEEFY call, better way to do this?
+    //gets the job from the particular event
     function getJobs(eventId, obj, callback) {
         con.query("SELECT * FROM Jobs inner JOIN (Select id ,name, email FROM users) AS users ON users.id=Jobs.uid " + 
         "WHERE Jobs.eid=" + eventId + ";", function (err, result, fields) {
