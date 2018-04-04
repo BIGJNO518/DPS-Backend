@@ -47,7 +47,23 @@ ALTER TABLE `Jobs` ADD CONSTRAINT `jobs_fk1` FOREIGN KEY (`uid`) REFERENCES `Use
 
 
 INSERT INTO USERS(ID, name, phoneNumber, email, password, token, expires, admin, employee, volunteer, developer) 
-	VALUES(001, 'Nicole' , '18001248102', 'nicoleMadison@test.com' ,AES_ENCRYPT(MD5('password'), UNHEX(SHA2('SecretDPSPassphrase', 512))), '
+	VALUES(001, 'Nicole' , '18001248102', 'nicoleMadison@test.com' ,AES_ENCRYPT(MD5('password'), UNHEX(SHA2('SecretDPSPassphrase', 512))), 
+	       'NULL', 'NULL', True, True, False, False);
+	       INSERT INTO USERS(ID, name, phoneNumber, email, password, token, expires, admin, employee, volunteer, developer) 
+	VALUES(002, 'David' ,  '12004261149', 'davidPetters@test.com' ,AES_ENCRYPT(MD5('password'), UNHEX(SHA2('SecretDPSPassphrase', 512))), 
+	       'NULL', 'NULL', False, True, False, False);
+	       INSERT INTO USERS(ID, name, phoneNumber, email, password, token, expires, admin, employee, volunteer, developer) 
+	VALUES(003, 'Sarah' , '18401198167', 'nicoleMadison@test.com' ,AES_ENCRYPT(MD5('password'), UNHEX(SHA2('SecretDPSPassphrase', 512))), 
+	       'NULL', 'NULL', False, False, True, False);
+	       INSERT INTO USERS(ID, name, phoneNumber, email, password, token, expires, admin, employee, volunteer, developer) 
+	VALUES(004, 'Jason' , '18001248102', 'nicoleMadison@test.com' ,AES_ENCRYPT(MD5('password'), UNHEX(SHA2('SecretDPSPassphrase', 512))), 
+	       'NULL', 'NULL', True, False, False, True);
+	       INSERT INTO USERS(ID, name, phoneNumber, email, password, token, expires, admin, employee, volunteer, developer) 
+	VALUES(005, 'Daniels ' , '18001248102', 'nicoleMadison@test.com' ,AES_ENCRYPT(MD5('password'), UNHEX(SHA2('SecretDPSPassphrase', 512))), 
+	       'NULL', 'NULL', True, False, False, False);
+	       INSERT INTO USERS(ID, name, phoneNumber, email, password, token, expires, admin, employee, volunteer, developer) 
+	VALUES(006, 'Tommy' , '18001248102', 'nicoleMadison@test.com' ,AES_ENCRYPT(MD5('password'), UNHEX(SHA2('SecretDPSPassphrase', 512))), 
+	       'NULL', 'NULL', True, False, False, False);
 	       
 	
 
