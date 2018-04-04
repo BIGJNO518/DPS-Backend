@@ -4,8 +4,8 @@ USE dpsbackend;
 
 CREATE TABLE `users` (
 	`ID` INT NOT NULL AUTO_INCREMENT,
-	`token` varchar(32) NOT NULL,
-	`expires` DATETIME NOT NULL,
+	`token` varchar(32),
+	`expires` DATETIME,
 	`name` VARCHAR(255) NOT NULL,
 	`email` VARCHAR(255) NOT NULL,
 	`phoneNumber` VARCHAR(255) NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE `jobs` (
 	`name` VARCHAR(255) NOT NULL,
 	`startTime` DATETIME NOT NULL,
 	`endTime` DATETIME NOT NULL,
-	`uid` INT NOT NULL,
+	`uid` INT,
 	PRIMARY KEY (`ID`)
 );
 
