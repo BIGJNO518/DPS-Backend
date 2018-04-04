@@ -11,7 +11,7 @@ CREATE TABLE `Users` (
 	`password` blob NOT NULL,
 	`token` varchar(32),
 	`expires` DATETIME,
-	`admin` BOOLEAN NOT NULL DEFAULT FALSE,
+	`admin` BOOLEAN NOT NULL DEFAULT False,
 	`employee` BOOLEAN NOT NUL DEFAULT False,
 	`volunteer` BOOLEAN NOT NULL DEFAULT True,
 	`developer` BOOLEAN NOT NULL DEFAULT False,
