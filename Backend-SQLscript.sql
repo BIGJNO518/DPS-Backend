@@ -9,25 +9,13 @@ CREATE TABLE `Users` (
 	`phoneNumber` VARCHAR(255) NOT NULL,
 	`email` VARCHAR(255) NOT NULL,
 	`password` blob NOT NULL,
-	PRIMARY KEY (`ID`)
-);
-//add
-DROP TABLE IF EXISTS Sessions;
-CREATE TABLE `Sessions` (
-	`ID` INT NOT NULL AUTO_INCREMENT,
 	`token` varchar(32) NOT NULL UNIQUE,
 	`expires` DATETIME NOT NULL,
-	PRIMARY KEY (`ID`)
-);
-//add
-DROP TABLE IF EXISTS Permissions;
-CREATE TABLE `Permissions` (
-	`ID` INT NOT NULL AUTO_INCREMENT,
 	`admin` BOOLEAN NOT NULL,
 	`employee` BOOLEAN NOT NULL,
 	`volunteer` BOOLEAN NOT NULL DEFAULT True,
 	`developer` BOOLEAN NOT NULL,
-	PRIMARY KEY (`ID`)
+	 PRIMARY KEY (`ID`)
 );
 
 DROP TABLE IF EXISTS Events;
@@ -52,9 +40,6 @@ CREATE TABLE `Jobs` (
 	PRIMARY KEY (`ID`)
 );
 	
-ALTER TABLE `Sessions` ADD CONSTRAINT `sessions_fk0` FOREIGN KEY (`ID`) REFERENCES `users`(`ID`);
-
-ALTER TABLE `Permissions` ADD CONSTRAINT `permissions_fk0` FOREIGN KEY (`ID`) REFERENCES `users`(`ID`);
 
 ALTER TABLE `Jobs` ADD CONSTRAINT `jobs_fk0` FOREIGN KEY (`eid`) REFERENCES `Events`(`ID`);
 
