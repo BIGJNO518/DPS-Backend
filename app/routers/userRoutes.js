@@ -11,22 +11,25 @@ var routes = function (con) {
             async.apply(getUser, req.headers.email, req.headers.password),
             updateToken
         ], function (err, results) {
-            console.log(results); 
+            if (err) {
+                res.status(err.code).send(err.message);
+                return;
+            }
             res.json(results);
         });
     });
 
     // Register
     userRouter.put('/register', function (req, res) {
-        if (!(req.headers.email && req.headers.name && req.headers.phonenumber && req.headers.password)) {
+        if (!(req.body.email && req.body.name && req.body.phoneNumber && req.body.password)) {
             res.status(500).send('Missing information');
         }
         var user = {
             user: {
-                email: req.headers.email,
-                name: req.headers.name,
-                phoneNumber: req.headers.phonenumber,
-                password: req.headers.password
+                email: req.body.email,
+                name: req.body.name,
+                phoneNumber: req.body.phoneNumber,
+                password: req.body.password
             },
             permissions: {
                 admin: false,
@@ -84,10 +87,10 @@ var routes = function (con) {
             async.apply(getUserFromToken, token),
             function (user, callback) {
                 // Check if this person is authorized to make this change
-                if (req.headers.id == user.user.ID || user.permissions.admin) {
-                    user.user.name = req.headers.name;
-                    user.user.email = req.headers.email;
-                    user.user.phoneNumber = req.headers.phonenumber;
+                if (req.body.ID == user.user.ID || user.permissions.admin) {
+                    user.user.name = req.body.name;
+                    user.user.email = req.body.email;
+                    user.user.phoneNumber = req.body.phoneNumber;
                     callback(null, user)
                     return;
                 }
@@ -101,6 +104,7 @@ var routes = function (con) {
                 });
             }
         ], function (err, results) {
+            results.authentication = token;
             res.json(results);
         });
     })
@@ -109,6 +113,9 @@ var routes = function (con) {
         con.query("SELECT * FROM users WHERE email = '" + email + "' AND password = AES_ENCRYPT(MD5('" + password + "'), UNHEX(SHA2('SecretDPSPassphrase', 512)))", function (err, result, fields) {
             if (err) {
                 callback(err, null);
+                return;
+            } else if (result.length == 0) {
+                callback({code: 405, message: 'Email or password are incorrect.'}, null);
                 return;
             };
             var user = {
@@ -138,8 +145,7 @@ var routes = function (con) {
     };
 
     function getUserFromToken(token, callback) {
-        con.query("SELECT * FROM sessions INNER JOIN users ON sessions.ID=users.ID INNER JOIN permissions ON sessions.ID=permissions.ID WHERE sessions.token='" + 
-          token + "';", function (err, result, fields) {
+        con.query("SELECT * FROM users WHERE token='" + token + "';", function (err, result, fields) {
             var user = {
                 user: {
                     ID: result[0].ID,
