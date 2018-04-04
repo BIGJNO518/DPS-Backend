@@ -70,15 +70,15 @@ INSERT INTO Users(ID, name, phoneNumber, email, password) VALUES (006,'Wiggin Pe
 INSERT INTO Users(ID, name, phoneNumber, email, password) VALUES (999, 'User General',  'NULL', 'NULL', AES_ENCRYPT(MD5('NULL'),UNHEX(SHA2('NULL1', 512)))); 
 
 
-INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (001, 'Save t', 'plant more trees', '1899-01-01', '2014-04-01', true);
-INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (002, 'Save t', 'Stop PETA', '1899-01-01', '2012-02-05', false);
-INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (003, 'Save t', 'help people eat more greens', '1899-01-01', '1997-08-02', true);
-INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (004, 'Save t', 'More hospitals and medical treatment', '1899-01-01', '0001-01-01', false);
-INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (005, 'Sciencture', 'Funds for the science field', '1899-01-01', '1980-09-12', true);
-INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (006, 'Think ildren', 'More school books and funds',  '1899-01-01', '2010-06-05', true);
+INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (001, 'Save the trees', 'plant more trees', '1899-01-01', '2014-04-01', true);
+INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (002, 'Save the animals', 'Animal Shelter help', '1899-01-01', '2012-02-05', false);
+INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (003, 'Save the people', 'help people eat more greens', '1899-01-01', '1997-08-02', true);
+INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (004, 'Save the people 2.0', 'More hospitals and medical treatment', '1899-01-01', '0001-01-01', false);
+INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (005, 'Science Funds', 'Funds for the science field', '1899-01-01', '1980-09-12', true);
+INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (006, 'Think of the children', 'More school books and funds',  '1899-01-01', '2010-06-05', true);
 INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (999, 'NULL', 'ue', '1899-01-01', '1899-02-02', false);
 INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (007, 'Help Me', 'psychology', '2020-05-02', '2021-02-02', false);
-INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (008, 'Invasion', 'Aliens are comming', '2021-02-03', '2140-09-30', false);
+INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (008, 'More pizza!', 'Funds for college free pizza', '2021-02-03', '2140-09-30', false);
 INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (009, 'Mother Nature', 'Regrow the environment', '2140-10-01', '2240-12-25', false);
 INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (010, 'Pangea 2.0', 'Building unity', '2030-11-12', '2035-07-26', false);
 
