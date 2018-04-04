@@ -77,6 +77,11 @@ INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES 
 INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (005, 'Sciencture', 'Funds for the science field', '1899-01-01', '1980-09-12', true);
 INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (006, 'Think ildren', 'More school books and funds',  '1899-01-01', '2010-06-05', true);
 INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (999, 'NULL', 'ue', '1899-01-01', '1899-02-02', false);
+INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (007, 'Help Me', 'psychology', '2020-05-02', '2021-02-02', false);
+INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (008, 'Invasion', 'Aliens are comming', '2021-02-03', '2140-09-30', false);
+INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (009, 'Mother Nature', 'Regrow the environment', '2140-10-01', '2240-12-25', false);
+INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (010, 'Pangea 2.0', 'Building unity', '2030-11-12', '2035-07-26', false);
+
 
 
 INSERT INTO Permissions(ID, admin, employee, volunteer, developer) VALUES (1, True, True, True, True);
@@ -85,5 +90,5 @@ INSERT INTO Permissions(ID, admin, employee, volunteer, developer) VALUES (3, Fa
 INSERT INTO Permissions(ID, admin, employee, volunteer, developer) VALUES (4, False, False, True, false);
 
 INSERT INTO Jobs(ID, eid, role, startTime, endTime, uid) VALUES (001, 001, 'Cook', '1899-01-01', '1899-02-02', 001);
-INSERT INTO Jobs(ID, eid, role, startTime, endTime, uid) VALUES (002, 001, 'Desk', '1899-01-01', '1899-02-02', 002);
+INSERT INTO Jobs(ID, eid, role, startTime, endTime, uid) VALUES (002, 002, 'Desk', '1899-01-01', '1899-02-02', 002);
 
