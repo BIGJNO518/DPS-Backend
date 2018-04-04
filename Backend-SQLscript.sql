@@ -9,12 +9,12 @@ CREATE TABLE `Users` (
 	`phoneNumber` VARCHAR(255) NOT NULL,
 	`email` VARCHAR(255) NOT NULL,
 	`password` blob NOT NULL,
-	`token` varchar(32) NOT NULL UNIQUE,
-	`expires` DATETIME NOT NULL,
-	`admin` BOOLEAN NOT NULL,
-	`employee` BOOLEAN NOT NULL,
+	`token` varchar(32),
+	`expires` DATETIME,
+	`admin` BOOLEAN NOT NULL DEFAULT FALSE,
+	`employee` BOOLEAN NOT NUL DEFAULT False,
 	`volunteer` BOOLEAN NOT NULL DEFAULT True,
-	`developer` BOOLEAN NOT NULL,
+	`developer` BOOLEAN NOT NULL DEFAULT False,
 	 PRIMARY KEY (`ID`)
 );
 
@@ -33,7 +33,7 @@ DROP TABLE IF EXISTS Jobs;
 CREATE TABLE `Jobs` (
 	`ID` INT NOT NULL AUTO_INCREMENT,
 	`eid` INT NOT NULL,
-	`role` VARCHAR(255) NOT NULL,
+	`name` VARCHAR(255) NOT NULL,
 	`startTime` DATETIME NOT NULL,
 	`endTime` DATETIME NOT NULL,
 	`uid` INT NOT NULL,
@@ -45,6 +45,11 @@ ALTER TABLE `Jobs` ADD CONSTRAINT `jobs_fk0` FOREIGN KEY (`eid`) REFERENCES `Eve
 
 ALTER TABLE `Jobs` ADD CONSTRAINT `jobs_fk1` FOREIGN KEY (`uid`) REFERENCES `Users`(`ID`);
 
+
+INSERT INTO USERS(ID, name, phoneNumber, email, password, token, expires, admin, employee, volunteer, developer) 
+	VALUES(001, 'Nicole' , '18001248102', 'nicoleMadison@test.com' ,AES_ENCRYPT(MD5('password'), UNHEX(SHA2('SecretDPSPassphrase', 512))), '
+	       
+	
 
 INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (001, 'Save the trees', 'plant more trees', '1899-01-01', '2014-04-01', true);
 INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (002, 'Save the animals', 'Animal Shelter help', '1899-01-01', '2012-02-05', false);
