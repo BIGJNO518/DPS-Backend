@@ -9,8 +9,7 @@ var routes = function (con) {
     userRouter.get('/authenticate', function (req, res) {
         async.waterfall([
             async.apply(getUser, req.headers.email, req.headers.password),
-            updateToken,
-            getToken
+            updateToken
         ], function (err, results) {
             console.log(results); 
             res.json(results);
@@ -28,6 +27,12 @@ var routes = function (con) {
                 name: req.headers.name,
                 phoneNumber: req.headers.phonenumber,
                 password: req.headers.password
+            },
+            permissions: {
+                admin: false,
+                employee: false,
+                volunteer: true,
+                developer: false
             }
         }
         async.waterfall([
@@ -54,24 +59,11 @@ var routes = function (con) {
                 })
             },
             function (user, callback) {
-                con.query("INSERT INTO permissions (ID, admin, employee, volunteer, developer) VALUE (" + user.user.ID + ", FALSE, FALSE, TRUE, FALSE);", function (err, result, fields) {
-                    user.permissions = {
-                        admin: false,
-                        employee: false,
-                        volunteer: true,
-                        developer: false
-                    };
+                con.query("UPDATE users SET token=MD5(" + user.user.ID + " + NOW()),expires=DATE_ADD(NOW(), INTERVAL 30 DAY) WHERE ID=" + user.user.ID + "; SELECT token FROM users WHERE id=" + user.user.ID + ";", function (err, result, fields) {
+                    user.authentication = result[1][0].token;
                     callback(null, user);
                 })
-            },
-            function (user, callback) {
-                con.query("INSERT INTO sessions (ID, token, expires) VALUE (" + 
-                user.user.ID +", MD5(" + 
-                user.user.ID +" + NOW()), DATE_ADD(NOW(), INTERVAL 30 DAY));", function (err, result, fields) {
-                    callback(null, user);
-                })
-            },
-            getToken
+            }
         ], function (err, results) {
             if (err) {
                 res.send(err);
@@ -114,7 +106,7 @@ var routes = function (con) {
     })
 
     function getUser(email, password, callback) {
-        con.query("SELECT * FROM users INNER JOIN permissions ON users.ID=permissions.ID WHERE email = '" + email + "' AND password = AES_ENCRYPT(MD5('" + password + "'), UNHEX(SHA2('SecretDPSPassphrase', 512)))", function (err, result, fields) {
+        con.query("SELECT * FROM users WHERE email = '" + email + "' AND password = AES_ENCRYPT(MD5('" + password + "'), UNHEX(SHA2('SecretDPSPassphrase', 512)))", function (err, result, fields) {
             if (err) {
                 callback(err, null);
                 return;
@@ -126,6 +118,7 @@ var routes = function (con) {
                     email: result[0].email,
                     phoneNumber: result[0].phoneNumber,
                 },
+                authentication: result[0].authentication,
                 permissions: {
                     admin: result[0].admin,
                     employee: result[0].employee,
@@ -138,19 +131,10 @@ var routes = function (con) {
     };
 
     function updateToken(user, callback) {
-        con.query("UPDATE sessions SET token=MD5(" + user.user.ID +" + NOW()), expires=DATE_ADD(NOW(), INTERVAL 30 DAY) WHERE ID=" + user.user.ID + ";", function (err, result, fields) {
+        con.query("UPDATE users SET token=MD5(" + user.user.ID +" + NOW()), expires=DATE_ADD(NOW(), INTERVAL 30 DAY) WHERE ID=" + user.user.ID + "; SELECT token FROM users WHERE ID=" + user.user.ID + ";", function (err, result, fields) {
+            user.authentication = result[1][0].token;
             callback(null, user);
         });
-    };
-
-    function getToken(user, callback) {
-        con.query("SELECT token FROM sessions WHERE ID=" + user.user.ID + ";", function (err, result, fields) {
-            if (err) {
-                callback(err, null);
-            }
-            user.authentication = result[0].token;
-            callback(null, user);
-        })
     };
 
     function getUserFromToken(token, callback) {
