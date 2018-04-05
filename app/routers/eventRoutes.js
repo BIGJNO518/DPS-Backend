@@ -20,16 +20,16 @@ var routes = function (con) {
         ], function (err, results) {
             // filter results if not authorized.
             if (!results.permissions.admin) {
-                for (var i = 0; i < results.Event.Jobs.length; i++) {
-                    if (results.Event.Jobs[i].volunteer) {
-                        results.Event.Jobs[i].volunteer.id = -1;
-                        results.Event.Jobs[i].volunteer.name = 'Volunteer';
-                        results.Event.Jobs[i].volunteer.email = null;
+                for (var i = 0; i < results.Event.jobs.length; i++) {
+                    if (results.Event.jobs[i].volunteer) {
+                        results.Event.jobs[i].volunteer.ID = -1;
+                        results.Event.jobs[i].volunteer.name = 'Volunteer';
+                        results.Event.jobs[i].volunteer.email = null;
                     }
                 }
             }
             delete results.permissions;
-            res.json(results);
+            res.json(results.Event);
         });
     });
 
@@ -51,7 +51,7 @@ var routes = function (con) {
             return;
         }
         var event = {
-            id: req.body.id,
+            ID: req.body.id,
             name: req.body.name,
             startTime: +req.body.startTime,
             endTime: +req.body.endTime,
@@ -69,16 +69,16 @@ var routes = function (con) {
             // TODO
 
             // If the ID is -1, it an insert. If it's anything else it's an update.
-            if (event.id == -1) {
+            if (event.ID == -1) {
                 con.query("INSERT INTO Events (name, startTime, endTime, description) VALUE ('" + event.name + "', from_unixtime(FLOOR(" + 
                   event.startTime + "/1000)), from_unixtime(FLOOR(" + event.endTime + "/1000)), '" + event.description + "');", function (err, result, fields) {
-                    event.id = result.insertId;
+                    event.ID = result.insertId;
                     res.json(event);
                 });
             } else {
                 con.query("UPDATE Events SET name='" + event.name + "', startTime=from_unixtime(FLOOR(" + 
                   event.startTime + "/1000)), endTime=from_unixtime(FLOOR(" + event.endTime + "/1000)), description='" + 
-                  event.description + "' WHERE id=" + event.id + ";", function (err, result, fields) {
+                  event.description + "' WHERE id=" + event.ID + ";", function (err, result, fields) {
                     if (err) {
                         res.status(500).send('Error updating Event');
                     }
@@ -93,14 +93,14 @@ var routes = function (con) {
             callback(null, {permissions: {admin: false, employee: false, volunteer: false, developer: false}});
             return;
         }
-        con.query("SELECT * FROM sessions INNER JOIN permissions ON sessions.ID=permissions.ID WHERE sessions.token='" + token + "';", function (err, result, fields) {
+        con.query("SELECT * FROM users WHERE token='" + token + "';", function (err, result, fields) {
             callback(null, {permissions: {admin: result[0].admin, employee: result[0].employee, volunteer: result[0].volunteer, developer: result[0].developer}});
             return;
         });
     };
 
     function getEvent(eventId, obj, callback) {
-        con.query("SELECT * FROM Events WHERE Events.ID=" + eventId + ';', function (err, result, fields) {
+        con.query("SELECT * FROM events WHERE ID=" + eventId + ';', function (err, result, fields) {
             obj.Event = result[0];
             callback(null, obj);
             return;
@@ -117,28 +117,29 @@ var routes = function (con) {
 
     //gets the job from the particular event
     function getJobs(eventId, obj, callback) {
-        con.query("SELECT * FROM Jobs inner JOIN (Select id ,name, email FROM users) AS users ON users.id=Jobs.uid " + 
-        "WHERE Jobs.eid=" + eventId + ";", function (err, result, fields) {
-              obj.Event.Jobs = [];
+        con.query("SELECT jobs.ID, jobs.name, jobs.startTime, jobs.endTime, jobs.uid, users.name AS username, users.email " + 
+            "FROM jobs LEFT OUTER JOIN users ON jobs.uid=users.ID " + "WHERE eid=" + eventId + ";", function (err, result, fields) {
+              obj.Event.jobs = [];
               for (var i = 0; i < result.length; i++) {
                     var thisJob = {
-                    id: result[i].ID,
+                    ID: result[i].ID,
                     name: result[i].name,
                     startTime: result[i].startTime,
                     endTime: result[i].endTime
                     };
                     if (result[i].uid) {
                         thisJob.volunteer = {
-                            id: result[i].uid,
+                            ID: result[i].uid,
                             name: result[i].username,
                             email: result[i].email
                         }
                     } else {
                         thisJob.volunteer = null
                     };
-                    obj.Event.Jobs.push(thisJob);
+                    obj.Event.jobs.push(thisJob);
                 };
                 callback(null, obj);
+                return;
         });
     }
 
