@@ -35,13 +35,60 @@ var routes = function (con) {
 
     //place holder for removing jobs (Not Complete)
     eventRouter.get('/unregister/:eventId/:jobId', function (req, res) {
+        var token = req.headers.authentication;
+        if (!token) {
+            res.status(401).send("Unauthorized");
+            return;
+        }
+        
+        async.waterfall([
+            async.apply(getUserFromToken, token),
+            function (user, callback) {
+                // Check if this person is authorized to make this change
+                if (user.permissions.volunteer) {
+                    con.query("UPDATE jobs SET uid=" + null + " WHERE eid=" + 
+                    req.param('eventId')+ " AND ID=" + req.param('jobId') + ";", function (err, result, fields) {
+                        callback(null, user);
+                        return;
+                });
+                }
+                res.status(401).send("Unauthorized");
+                return;
+            }
+        ], function (err, results) {
+            results.authentication = token;
+            res.json(results);
+        });
 
     });
 
     //place holder for adding jobs (Not Complete)
     eventRouter.get('/register/:eventId/:jobId', function (req, res) {
-            
-     });
+        var token = req.headers.authentication;
+        if (!token) {
+            res.status(401).send("Unauthorized");
+            return;
+        }
+        
+        async.waterfall([
+            async.apply(getUserFromToken, token),
+            function (user, callback) {
+                // Check if this person is authorized to make this change
+                if (user.permissions.volunteer) {
+                    con.query("UPDATE jobs SET uid=" + user.user.ID + " WHERE eid=" + 
+                    req.param('eventId')+ " AND ID=" + req.param('jobId') + ";", function (err, result, fields) {
+                        callback(null, user);
+                        return;
+                });
+                }
+                res.status(401).send("Unauthorized");
+                return;
+            }
+        ], function (err, results) {
+            results.authentication = token;
+            res.json(results);
+        });
+    });
     
 
     // Update/Add Event
