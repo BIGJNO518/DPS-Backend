@@ -34,7 +34,7 @@ var routes = function (con) {
     });
 
     //place holder for removing jobs (Not Complete)
-    eventRouter.get('/unregister/:eventId/:jobId', function (req, res) {
+    eventRouter.put('/unregister/:eventId/:jobId', function (req, res) {
         var token = req.headers.authentication;
         if (!token) {
             res.status(401).send("Unauthorized");
@@ -56,38 +56,85 @@ var routes = function (con) {
                 return;
             }
         ], function (err, results) {
-            results.authentication = token;
-            res.json(results);
+            if (err) {
+                res.status(500).send();
+            } else {
+                res.status(200).send();
+            }
         });
 
     });
 
     //place holder for adding jobs (Not Complete)
-    eventRouter.get('/register/:eventId/:jobId', function (req, res) {
+    eventRouter.put('/job/:eventId', function (req, res) {
         var token = req.headers.authentication;
         if (!token) {
             res.status(401).send("Unauthorized");
             return;
         }
-        
+
+        var job = {
+            ID: req.body.ID,
+            eid: req.params.eventId,
+            name: req.body.name,
+            startTime: req.body.startTime,
+            endTime: req.body.endTime
+        };
+
         async.waterfall([
             async.apply(getUserFromToken, token),
-            function (user, callback) {
-                // Check if this person is authorized to make this change
-                if (user.permissions.volunteer) {
-                    con.query("UPDATE jobs SET uid=" + user.user.ID + " WHERE eid=" + 
-                    req.param('eventId')+ " AND ID=" + req.param('jobId') + ";", function (err, result, fields) {
-                        callback(null, user);
-                        return;
-                });
+            async.apply(function (job, obj, callback) {
+                // User isn't admin, can't make change
+                if (!obj.permissions.admin) {
+                    callback({code: 201, message: "Unauthorized"}, null);
                 }
-                res.status(401).send("Unauthorized");
-                return;
+
+                // ID will be -1 for new job, ID will be set for update
+                if (job.ID >= 0) {
+                    con.query("UPDATE jobs SET name='" + job.name 
+                    + "', startTime=from_unixtime(FLOOR(" + job.startTime + "/1000)), endTime=from_unixtime(FLOOR(" + job.endTime + "/1000)) WHERE ID=" + job.ID + ";"
+                    , function (err, result, fields) {
+                        callback(err, result);
+                    });
+                } else {
+                    con.query("INSERT INTO jobs (eid, name, startTime, endTime) VALUE (" + job.eid + ", '" + job.name 
+                    + "', from_unixtime(FLOOR(" + job.startTime + "/1000)), from_unixtime(FLOOR(" + job.endTime + "/1000)));", function (err, result, fields) {
+                        callback(err, result);
+                    });
+                }
+            }, job)
+
+        ],
+        function (err, result) {
+            if (err) {
+                res.status(err.code).send(err.message)
+            } else {
+                res.status(200).send();
             }
-        ], function (err, results) {
-            results.authentication = token;
-            res.json(results);
-        });
+            console.log(result);
+        })
+        
+        // async.waterfall([
+        //     async.apply(getUserFromToken, token),
+        //     function (user, callback) {
+        //         // Check if this person is authorized to make this change
+        //         if (user.permissions.volunteer) {
+        //             con.query("UPDATE jobs SET uid=" + user.user.ID + " WHERE eid=" + 
+        //             req.param('eventId')+ " AND ID=" + req.param('jobId') + ";", function (err, result, fields) {
+        //                 callback(null, user);
+        //                 return;
+        //         });
+        //         }
+        //         res.status(401).send("Unauthorized");
+        //         return;
+        //     }
+        // ], function (err, results) {
+        //     if (err) {
+        //         res.status(500).send();
+        //     } else {
+        //         res.status(200).send();
+        //     }
+        // });
     });
     
 
@@ -187,6 +234,26 @@ var routes = function (con) {
                 };
                 callback(null, obj);
                 return;
+        });
+    }
+
+    function getUserFromToken(token, callback) {
+        con.query("SELECT * FROM users WHERE token='" + token + "';", function (err, result, fields) {
+            var user = {
+                user: {
+                    ID: result[0].ID,
+                    name: result[0].name,
+                    email: result[0].email,
+                    phoneNumber: result[0].phoneNumber
+                },
+                permissions: {
+                    admin: result[0].admin,
+                    employee: result[0].employee,
+                    volunteer: result[0].volunteer,
+                    developer: result[0].developer
+                }
+            };
+            callback(null, user);
         });
     }
 
