@@ -3,6 +3,7 @@ var express    = require('express');
 var app        = express();
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
+var expressWs = require('express-ws')(app);
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -23,6 +24,7 @@ con.connect(function (err) {
 })
 var userRouter = require('./app/routers/userRoutes.js')(con);
 var eventRouter = require('./app/routers/eventRoutes.js')(con);
+var messageRouter = require('./app/routers/messageRoutes.js')(con);
 
 // Check if authentication token has expired, if it has strip it off.
 app.use(function (req, res, next) {
@@ -43,6 +45,7 @@ app.use(function (req, res, next) {
 // all of our routes will be prefixed with /api
 app.use('/api/user', userRouter);
 app.use('/api/events', eventRouter);
+app.use('/api/messages', messageRouter);
 
 // START THE SERVER
 // =============================================================================
