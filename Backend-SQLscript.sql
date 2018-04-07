@@ -49,22 +49,30 @@ ALTER TABLE `Jobs` ADD CONSTRAINT `jobs_fk1` FOREIGN KEY (`uid`) REFERENCES `Use
 INSERT INTO USERS(ID, name, phoneNumber, email, password, token, expires, admin, employee, volunteer, developer) 
 	VALUES(001, 'Nicole' , '18001248102', 'nicoleMadison@test.com' ,AES_ENCRYPT(MD5('password'), UNHEX(SHA2('SecretDPSPassphrase', 512))), 
 	       'NULL', 'NULL', True, True, False, False);
-	       INSERT INTO USERS(ID, name, phoneNumber, email, password, token, expires, admin, employee, volunteer, developer) 
-	VALUES(002, 'David' ,  '12004261149', 'davidPetters@test.com' ,AES_ENCRYPT(MD5('password'), UNHEX(SHA2('SecretDPSPassphrase', 512))), 
+INSERT INTO USERS(ID, name, phoneNumber, email, password, token, expires, admin, employee, volunteer, developer) 
+	VALUES(003, 'David' ,  '12004261149', 'davidPetters@test.com' ,AES_ENCRYPT(MD5('password'), UNHEX(SHA2('SecretDPSPassphrase', 512))), 
 	       'NULL', 'NULL', False, True, False, False);
-	       INSERT INTO USERS(ID, name, phoneNumber, email, password, token, expires, admin, employee, volunteer, developer) 
-	VALUES(003, 'Sarah' , '18401198167', 'nicoleMadison@test.com' ,AES_ENCRYPT(MD5('password'), UNHEX(SHA2('SecretDPSPassphrase', 512))), 
-	       'NULL', 'NULL', False, False, True, False);
-	       INSERT INTO USERS(ID, name, phoneNumber, email, password, token, expires, admin, employee, volunteer, developer) 
-	VALUES(004, 'Jason' , '18001248102', 'nicoleMadison@test.com' ,AES_ENCRYPT(MD5('password'), UNHEX(SHA2('SecretDPSPassphrase', 512))), 
+INSERT INTO USERS(ID, name, phoneNumber, email, password, token, expires, admin, employee, volunteer, developer) 
+	VALUES(004, 'Sarah' , '184011981675', 'sarahConnor@test.com' ,AES_ENCRYPT(MD5('password'), UNHEX(SHA2('SecretDPSPassphrase', 512))), 
+	       'NULL', 'NULL', False, False, True, True);
+INSERT INTO USERS(ID, name, phoneNumber, email, password, token, expires, admin, employee, volunteer, developer) 
+	VALUES(005, 'Jackson' , '450601448100', 'jacksonMcGregor@test.com' ,AES_ENCRYPT(MD5('password'), UNHEX(SHA2('SecretDPSPassphrase', 512))), 
+	       'NULL', 'NULL', True, False, False, False);
+INSERT INTO USERS(ID, name, phoneNumber, email, password, token, expires, admin, employee, volunteer, developer) 
+	VALUES(006, 'Daniels', '96901249102', 'danielsJack@test.com' ,AES_ENCRYPT(MD5('password'), UNHEX(SHA2('SecretDPSPassphrase', 512))), 
+	       'NULL', 'NULL', False, True, False, False);
+INSERT INTO USERS(ID, name, phoneNumber, email, password, token, expires, admin, employee, volunteer, developer) 
+	VALUES(007, 'Tommy', '917666248166', 'tommyLaDuke@test.com' ,AES_ENCRYPT(MD5('password'), UNHEX(SHA2('SecretDPSPassphrase', 512))), 
+	       'NULL', 'NULL', True, False, False, False);
+INSERT INTO USERS(ID, name, phoneNumber, email, password, token, expires, admin, employee, volunteer, developer) 
+	VALUES(008, 'Karen' , '95001273202', 'karenMargret@test.com' ,AES_ENCRYPT(MD5('password'), UNHEX(SHA2('SecretDPSPassphrase', 512))), 
+	       'NULL', 'NULL', False, False, False, True);
+INSERT INTO USERS(ID, name, phoneNumber, email, password, token, expires, admin, employee, volunteer, developer) 
+	VALUES(009, 'Den' , '586015606990', 'denPatric@test.com' ,AES_ENCRYPT(MD5('password'), UNHEX(SHA2('SecretDPSPassphrase', 512))), 
 	       'NULL', 'NULL', True, False, False, True);
-	       INSERT INTO USERS(ID, name, phoneNumber, email, password, token, expires, admin, employee, volunteer, developer) 
-	VALUES(005, 'Daniels ' , '18001248102', 'nicoleMadison@test.com' ,AES_ENCRYPT(MD5('password'), UNHEX(SHA2('SecretDPSPassphrase', 512))), 
-	       'NULL', 'NULL', True, False, False, False);
-	       INSERT INTO USERS(ID, name, phoneNumber, email, password, token, expires, admin, employee, volunteer, developer) 
-	VALUES(006, 'Tommy' , '18001248102', 'nicoleMadison@test.com' ,AES_ENCRYPT(MD5('password'), UNHEX(SHA2('SecretDPSPassphrase', 512))), 
-	       'NULL', 'NULL', True, False, False, False);
-	       
+INSERT INTO USERS(ID, name, phoneNumber, email, password, token, expires, admin, employee, volunteer, developer) 
+	VALUES(010, 'Timothy' , '1918123384', 'timothyScope@test.com' ,AES_ENCRYPT(MD5('password'), UNHEX(SHA2('SecretDPSPassphrase', 512))), 
+	       'NULL', 'NULL', True, True, False, False);
 	
 
 INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES (001, 'Save the trees', 'plant more trees', '1899-01-01', '2014-04-01', true);
