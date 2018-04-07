@@ -11,20 +11,17 @@ var routes = function (con) {
         //Verify the token query parameter is valid and if so annotate the connection with the user information.
         var token = req.query.token;
         if (!token) {
-            ws.send('error');
-            ws.close();
+            exitError();
             return;
         }
         con.query('SELECT * FROM users WHERE token="' + req.query.token + '";', function (err, results, fields) {
             if (results.length === 0) {
-                ws.send('error');
-                ws.close();
+                exitError()
                 return;
             } else {
                 con.query('SELECT `from`, message, `time` FROM (SELECT messages.ID, users.name AS `from`, messages.message AS message, messages.time AS `time` FROM messages INNER JOIN users ON messages.from=users.ID ORDER BY messages.ID DESC LIMIT 100) AS M ORDER BY M.ID ASC;', function (err, results, fields) {
                     if (err) {
-                        ws.send('error');
-                        ws.close();
+                        exitError();
                         return;
                     }
                     ws.send(JSON.stringify(results));
@@ -60,7 +57,14 @@ var routes = function (con) {
             clients.splice(index, 1);
         });
         console.log("Connnection request from: " + req.ip);
-    })
+
+        function exitError() {
+            ws.send('error');
+            ws.close();
+        }
+    });
+
+    
 
     return messageRouter;
 }
