@@ -5,6 +5,7 @@ var routes = function (con) {
     var messageRouter = express.Router();
 
     var clients = [];
+    var isTyping = [];
 
 
     messageRouter.ws('/echo', function (ws, req) {
@@ -24,42 +25,71 @@ var routes = function (con) {
                         exitError();
                         return;
                     }
-                    ws.send(JSON.stringify(results));
+                    ws.send(JSON.stringify({messages: results}));
                 })
                 clients[index].ID = results[0].ID;
                 clients[index].name = results[0].name;
+                console.log("Connnection request from: " + ws.name);
             }
         });
+        ws.typingIndex = -1;
         var index = clients.push(ws) - 1;
+        
 
         ws.on('message', function (msg) {
-            
-            con.query("INSERT INTO messages (`from`, message, `time`) VALUES (" + ws.ID + ", " + con.escape(msg) +", NOW());", function (err, results, fields) {
-                if (err) {
-                    console.log("Error inserting message.");
+            var incoming = JSON.parse(msg);
+            // If they tell use they're typing
+            if (incoming.typing != null) {
+                if (incoming.typing) {
+                    ws.isTyping = true;
                 } else {
-                    console.log(ws.name + " says '" + msg + "'.");
+                    ws.isTyping = false;
                 }
-                msg = {
-                    from: ws.name,
-                    message: msg,
-                    time: new Date().getTime()
+                var whosTyping = [];
+                for (var i = 0; i < clients.length; i++) {
+                    if (clients[i].isTyping) {
+                        whosTyping.push(clients[i].name);
+                    }
                 }
                 for (var i = 0; i < clients.length; i++) {
-                    clients[i].send(JSON.stringify(msg));
+                    if (clients[i].isTyping) {
+                        var copy = whosTyping.slice();
+                        copy.splice(whosTyping.indexOf(clients[i].name), 1);
+                        clients[i].send(JSON.stringify({typing: copy}));
+                    } else {
+                        clients[i].send(JSON.stringify({typing: whosTyping}));
+                    }
                 }
-            });
+            }
+            // If they tell use they're sending a message.
+            if (incoming.message) {
+                con.query("INSERT INTO messages (`from`, message, `time`) VALUES (" + ws.ID + ", " + con.escape(incoming.message) +", NOW());", function (err, results, fields) {
+                    if (err) {
+                        console.log("Error inserting message.");
+                    } else {
+                        console.log(ws.name + " says '" + incoming.message + "'.");
+                    }
+                    msg = {
+                        from: ws.name,
+                        message: incoming.message,
+                        time: new Date().getTime()
+                    }
+                    for (var i = 0; i < clients.length; i++) {
+                        clients[i].send(JSON.stringify({messages: [msg]}));
+                    }
+                });
+            }
         });
         ws.on('request', function (request) {
             console.log((new Date()) + ' Connection from origin ' + request.origin + '.');
         });
         ws.on('close', function () {
             clients.splice(index, 1);
+            console.log("Connect closed from: " + ws.name);
         });
-        console.log("Connnection request from: " + req.ip);
 
         function exitError() {
-            ws.send('error');
+            // ws.send('error');
             ws.close();
         }
     });
