@@ -48,17 +48,14 @@ var routes = function (con) {
                 if (user.permissions.volunteer) {
                     con.query("UPDATE jobs SET uid=" + null + " WHERE eid=" + 
                     req.param('eventId')+ " AND ID=" + req.param('jobId') + ";", function (err, result, fields) {
-                        callback(null, user);
+                        res.status(200).send("");
                         return;
                 });
                 }
                 res.status(401).send("Unauthorized");
                 return;
             }
-        ], function (err, results) {
-            results.authentication = token;
-            res.json(results);
-        });
+        ]);
 
     });
 
@@ -77,17 +74,14 @@ var routes = function (con) {
                 if (user.permissions.volunteer) {
                     con.query("UPDATE jobs SET uid=" + user.user.ID + " WHERE eid=" + 
                     req.param('eventId')+ " AND ID=" + req.param('jobId') + ";", function (err, result, fields) {
-                        callback(null, user);
+                        res.status(200).send("");
                         return;
                 });
                 }
                 res.status(401).send("Unauthorized");
                 return;
             }
-        ], function (err, results) {
-            results.authentication = token;
-            res.json(results);
-        });
+        ]);
     });
     
 
@@ -148,6 +142,16 @@ var routes = function (con) {
 
     function getEvent(eventId, obj, callback) {
         con.query("SELECT * FROM events WHERE ID=" + eventId + ';', function (err, result, fields) {
+            obj.Event = result[0];
+            callback(null, obj);
+            return;
+        });
+    };
+
+    //creates the job for the event
+    function createJob(eventId, obj, callback) {
+        con.query("INSERT INTO jobs(ID, eid, role, startTime, endTime, uid) VALUES (001, 001, 'Cook', '1899-01-01', '1899-02-02', 001);",
+         function (err, result, fields) {
             obj.Event = result[0];
             callback(null, obj);
             return;
