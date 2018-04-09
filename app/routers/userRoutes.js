@@ -7,16 +7,32 @@ var routes = function (con) {
 
     // Login
     userRouter.get('/authenticate', function (req, res) {
-        async.waterfall([
-            async.apply(getUser, req.headers.email, req.headers.password),
-            updateToken
-        ], function (err, results) {
-            if (err) {
-                res.status(err.code).send(err.message);
-                return;
-            }
-            res.json(results);
-        });
+        var token = req.headers.authentication;
+        if (token && !req.headers.email) {
+            async.waterfall([
+                async.apply(getUserFromToken, token)
+            ],
+            function (err, results) {
+                if (err) {
+                    res.status(401).send("Invalid or expired token")
+                } else {
+                    results.authentication = token;
+                    res.status(200).send(results)
+                }
+            });
+        } else {
+            async.waterfall([
+                async.apply(getUser, req.headers.email, req.headers.password),
+                updateToken
+                ], 
+                function (err, results) {
+                if (err) {
+                    res.status(err.code).send(err.message);
+                    return;
+                }
+                res.json(results);
+            });
+        }
     });
 
     // Register

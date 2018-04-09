@@ -6,6 +6,7 @@
         "async": "^2.6.0",
         "body-parser": "~1.0.1",
         "express": "~4.0.0",
+        "express-ws": "^3.0.0",
         "mysql": "^2.15.0",
         "node-mysql-importer": "0.0.10"
     },

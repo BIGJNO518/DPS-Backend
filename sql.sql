@@ -37,6 +37,16 @@ CREATE TABLE `jobs` (
 	PRIMARY KEY (`ID`)
 );
 
+CREATE TABLE `messages` (
+	`ID` INT NOT NULL AUTO_INCREMENT,
+	`from` INT NOT NULL,
+	`message` VARCHAR(255) NOT NULL,
+	`time` DATETIME NOT NULL,
+	PRIMARY KEY (`ID`)
+);
+
+ALTER TABLE `messages` ADD CONSTRAINT `messages_fk0` FOREIGN KEY (`from`) REFERENCES `users`(`ID`);
+
 ALTER TABLE `jobs` ADD CONSTRAINT `jobs_fk0` FOREIGN KEY (`eid`) REFERENCES `events`(`ID`);
 
 ALTER TABLE `jobs` ADD CONSTRAINT `jobs_fk1` FOREIGN KEY (`uid`) REFERENCES `users`(`ID`);
