@@ -14,7 +14,9 @@ var routes = function (con) {
     // Get single Event
     eventRouter.get('/:eventId', function (req, res) {
         async.waterfall([
-            async.apply(getUserFromToken, req.headers.authentication)
+            async.apply(getUserFromToken, req.headers.authentication),
+            async.apply(getEvent, req.param('eventId')),
+            async.apply(getJobs, req.param('eventId'))
         ], function (err, results) {
             if (err) {
                 res.status(err.status).send(err.message);
@@ -34,26 +36,6 @@ var routes = function (con) {
             res.json(results.Event);
         });
     });
-
-        // Place holder for deleting an event
-        eventRouter.get('/delete/:eventId', function (req, res) {
-            async.waterfall([
-                async.apply(getUserFromToken, req.headers.authentication),
-             ] ,function (err, results) {
-                if (err) {
-                    res.status(err.status).send(err.message);
-                    return;
-                }
-                // filter results if not authorized.
-                if (!results.permissions.admin || !results.permissions.admin) {
-                    res.status(401).send('Unauthorized');
-                    return;
-                }
-                
-                deleteEvent()
-                res.json(null);
-            });
-        });
 
     //removing jobs
     eventRouter.put('/unregister/:eventId/:jobId', function (req, res) {
@@ -135,6 +117,21 @@ var routes = function (con) {
             }
             console.log(result);
         })
+
+                // Place holder for deleting an event
+        eventRouter.get('/delete/:eventId', function (req, res) {
+                    async.waterfall([
+                        async.apply(getUserFromToken, req.headers.authentication),
+                     ] ,function (err, results) {
+                        if (err) {
+                            res.status(err.status).send(err.message);
+                            return;
+                        }
+                        // filter results if not authorized.
+
+                        res.json(null);
+                    });
+                });
         
         // async.waterfall([
         //     async.apply(getUserFromToken, token),
@@ -250,9 +247,13 @@ var routes = function (con) {
     };
 
     function deleteEvent(eventId, obj, callback) {
+        if (!obj.permissions.admin || !obj.permissions.employee) {
+            callback({code: 201, message: "Unauthorized"}, null);
+            return;
+        }
+
         con.query("UPDATE Events SET isDeleted = TRUE WHERE Events.ID=" + eventId + ';', function (err, result, fields) {
-            obj.Event = result[0];
-            callback(null, obj);
+            callback(null, null);
             return;
         });
     };
