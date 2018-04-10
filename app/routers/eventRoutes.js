@@ -121,13 +121,13 @@ var routes = function (con) {
                 // Place holder for deleting an event
         eventRouter.get('/delete/:eventId', function (req, res) {
                     async.waterfall([
-                        async.apply(getUserFromToken, req.headers.authentication),
+                    async.apply(getUserFromToken, req.headers.authentication),
+                    async.apply(deleteEvent, req.param('eventId'))
                      ] ,function (err, results) {
-                        if (err) {
+
                             res.status(err.status).send(err.message);
                             return;
-                        }
-                        // filter results if not authorized.
+
 
                         res.json(null);
                     });
@@ -248,12 +248,12 @@ var routes = function (con) {
 
     function deleteEvent(eventId, obj, callback) {
         if (!obj.permissions.admin || !obj.permissions.employee) {
-            callback({code: 201, message: "Unauthorized"}, null);
+            callback({code: 400, message: "Unauthorized"}, null);
             return;
         }
 
         con.query("UPDATE Events SET isDeleted = TRUE WHERE Events.ID=" + eventId + ';', function (err, result, fields) {
-            callback(null, null);
+            callback({code: 200, message: "Succesfully Deleted"}, null);
             return;
         });
     };
