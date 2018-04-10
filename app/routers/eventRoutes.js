@@ -14,9 +14,7 @@ var routes = function (con) {
     // Get single Event
     eventRouter.get('/:eventId', function (req, res) {
         async.waterfall([
-            async.apply(getUserFromToken, req.headers.authentication),
-            async.apply(getEvent, req.param('eventId')),
-            async.apply(getJobs, req.param('eventId'))
+            async.apply(getUserFromToken, req.headers.authentication)
         ], function (err, results) {
             if (err) {
                 res.status(err.status).send(err.message);
@@ -37,7 +35,27 @@ var routes = function (con) {
         });
     });
 
-    //place holder for removing jobs (Not Complete)
+        // Place holder for deleting an event
+        eventRouter.get('/delete/:eventId', function (req, res) {
+            async.waterfall([
+                async.apply(getUserFromToken, req.headers.authentication),
+             ] ,function (err, results) {
+                if (err) {
+                    res.status(err.status).send(err.message);
+                    return;
+                }
+                // filter results if not authorized.
+                if (!results.permissions.admin || !results.permissions.admin) {
+                    res.status(401).send('Unauthorized');
+                    return;
+                }
+                
+                deleteEvent()
+                res.json(null);
+            });
+        });
+
+    //removing jobs
     eventRouter.put('/unregister/:eventId/:jobId', function (req, res) {
         var token = req.headers.authentication;
         if (!token) {
@@ -69,7 +87,7 @@ var routes = function (con) {
 
     });
 
-    //place holder for adding jobs (Not Complete)
+    //adding jobs
     eventRouter.put('/job/:eventId', function (req, res) {
         var token = req.headers.authentication;
         if (!token) {
