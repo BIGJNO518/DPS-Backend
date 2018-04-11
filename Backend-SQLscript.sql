@@ -89,16 +89,16 @@ INSERT INTO Events(ID, name, description, startTime, endTime, isDeleted) VALUES 
 
 
 
-INSERT INTO Jobs(ID, eid, role, startTime, endTime, uid) VALUES (001, 001, 'Clean up', '2018-04-09', '2018-04-10', 001);
-INSERT INTO Jobs(ID, eid, role, startTime, endTime, uid) VALUES (002, 002, 'Get animal food', '2018-04-05', '2018-04-06', 002);
-INSERT INTO Jobs(ID, eid, role, startTime, endTime, uid) VALUES (003, 003, 'Head Cook', '2018-05-09', '2018-05-09', 003);
-INSERT INTO Jobs(ID, eid, role, startTime, endTime, uid) VALUES (004, 004, 'Get medical supplies', '2018-06-10', '2018-06-10', 004);
-INSERT INTO Jobs(ID, eid, role, startTime, endTime, uid) VALUES (005, 005, 'Keep track of all funds', '2018-04-26', '2018-04-26', 005);
-INSERT INTO Jobs(ID, eid, role, startTime, endTime, uid) VALUES (006, 006, 'Buy books', '2018-04-26', '2018-04-28', 006);
-INSERT INTO Jobs(ID, eid, role, startTime, endTime, uid) VALUES (999, 999, 'null', '2018-04-19', '2018-04-21', 000);
-INSERT INTO Jobs(ID, eid, role, startTime, endTime, uid) VALUES (007, 007, 'Psychologists', '2018-06-29', '2018-06-30',007);
-INSERT INTO Jobs(ID, eid, role, startTime, endTime, uid) VALUES (008, 008, 'Get pizzas', '2018-04-29', '2018-04-29', 008);
-INSERT INTO Jobs(ID, eid, role, startTime, endTime, uid) VALUES (009, 009, 'Get seeds', '2018-04-04', '2018-04-04', 009);
-INSERT INTO Jobs(ID, eid, role, startTime, endTime, uid) VALUES (010, 010, 'Organize materials', '2018-05-25', '2018-05-25', 010);
+INSERT INTO Jobs(ID, eid, name, startTime, endTime, uid) VALUES (001, 001, 'Clean up', '2018-04-09', '2018-04-10', 001);
+INSERT INTO Jobs(ID, eid, name, startTime, endTime, uid) VALUES (002, 002, 'Get animal food', '2018-04-05', '2018-04-06', 002);
+INSERT INTO Jobs(ID, eid, name, startTime, endTime, uid) VALUES (003, 003, 'Head Cook', '2018-05-09', '2018-05-09', 003);
+INSERT INTO Jobs(ID, eid, name, startTime, endTime, uid) VALUES (004, 004, 'Get medical supplies', '2018-06-10', '2018-06-10', 004);
+INSERT INTO Jobs(ID, eid, name, startTime, endTime, uid) VALUES (005, 005, 'Keep track of all funds', '2018-04-26', '2018-04-26', 005);
+INSERT INTO Jobs(ID, eid, name, startTime, endTime, uid) VALUES (006, 006, 'Buy books', '2018-04-26', '2018-04-28', 006);
+INSERT INTO Jobs(ID, eid, name, startTime, endTime, uid) VALUES (999, 999, 'null', '2018-04-19', '2018-04-21', 000);
+INSERT INTO Jobs(ID, eid, name, startTime, endTime, uid) VALUES (007, 007, 'Psychologists', '2018-06-29', '2018-06-30',007);
+INSERT INTO Jobs(ID, eid, name, startTime, endTime, uid) VALUES (008, 008, 'Get pizzas', '2018-04-29', '2018-04-29', 008);
+INSERT INTO Jobs(ID, eid, name, startTime, endTime, uid) VALUES (009, 009, 'Get seeds', '2018-04-04', '2018-04-04', 009);
+INSERT INTO Jobs(ID, eid, name, startTime, endTime, uid) VALUES (010, 010, 'Organize materials', '2018-05-25', '2018-05-25', 010);
 
 
