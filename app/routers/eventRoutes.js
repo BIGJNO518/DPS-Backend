@@ -118,8 +118,8 @@ var routes = function (con) {
             console.log(result);
         })
 
-                // Place holder for deleting an event
-        eventRouter.get('/delete/:eventId', function (req, res) {
+        //deleting an event
+        eventRouter.delete('/:eventId', function (req, res) {
                     async.waterfall([
                     async.apply(getUserFromToken, req.headers.authentication),
                     async.apply(deleteEvent, req.param('eventId'))
@@ -240,6 +240,12 @@ var routes = function (con) {
 
     function getEvent(eventId, obj, callback) {
         con.query("SELECT * FROM events WHERE ID=" + eventId + ';', function (err, result, fields) {
+
+            if(result.length == 0){
+                callback({code: 404, message: "Does not exist"}, null);
+                return;
+            }
+
             obj.Event = result[0];
             callback(null, obj);
             return;
