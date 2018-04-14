@@ -12,7 +12,7 @@ CREATE TABLE `Users` (
 	`token` varchar(32),
 	`expires` DATETIME,
 	`admin` BOOLEAN NOT NULL DEFAULT False,
-	`employee` BOOLEAN NOT NUL DEFAULT False,
+	`employee` BOOLEAN NOT NULL DEFAULT False,
 	`volunteer` BOOLEAN NOT NULL DEFAULT True,
 	`developer` BOOLEAN NOT NULL DEFAULT False,
 	 PRIMARY KEY (`ID`)
