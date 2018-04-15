@@ -38,7 +38,7 @@ var routes = function (con) {
     // Register
     userRouter.put('/register', function (req, res) {
         if (!(req.body.email && req.body.name && req.body.phoneNumber && req.body.password)) {
-            res.status(500).send('Missing information');
+            res.status(406).send('Missing information');
         }
         var user = {
             user: {
@@ -58,7 +58,7 @@ var routes = function (con) {
             async.apply(function (user, callback) {
                 con.query("SELECT * FROM users WHERE email = '" + user.user.email + "'", function (err, result, fields) {
                     if (result.length > 0) {
-                        res.status(500).send('Already registered!');
+                        res.status(406).send('Already registered!');
                         return;
                     }
                     callback(null, user)
@@ -69,8 +69,9 @@ var routes = function (con) {
                 user.user.name + "', '" + 
                 user.user.phoneNumber + "', '" + 
                 user.user.email + "', AES_ENCRYPT(MD5('" + user.user.password + "'), UNHEX(SHA2('SecretDPSPassphrase', 512))));", function (err, result, fields) {
-                    if (err) {
-                        callback(err, null);
+                    if(err){
+                        callback({code: 400, message: 'Bad Request'}, null);
+                        return;
                     }
                     delete user.user.password;
                     user.user.ID = result.insertId;
@@ -79,6 +80,10 @@ var routes = function (con) {
             },
             function (user, callback) {
                 con.query("UPDATE users SET token=MD5(" + user.user.ID + " + NOW()),expires=DATE_ADD(NOW(), INTERVAL 30 DAY) WHERE ID=" + user.user.ID + "; SELECT token FROM users WHERE id=" + user.user.ID + ";", function (err, result, fields) {
+                    if(result.length == 0){
+                        callback({code: 400, message: 'Bad Request'}, null);
+                        return;
+                    }
                     user.authentication = result[1][0].token;
                     callback(null, user);
                 })
@@ -131,7 +136,7 @@ var routes = function (con) {
                 callback(err, null);
                 return;
             } else if (result.length == 0) {
-                callback({code: 405, message: 'Email or password are incorrect.'}, null);
+                callback({code: 406, message: 'Email or password are incorrect.'}, null);
                 return;
             };
             var user = {
@@ -155,6 +160,10 @@ var routes = function (con) {
 
     function updateToken(user, callback) {
         con.query("UPDATE users SET token=MD5(" + user.user.ID +" + NOW()), expires=DATE_ADD(NOW(), INTERVAL 30 DAY) WHERE ID=" + user.user.ID + "; SELECT token FROM users WHERE ID=" + user.user.ID + ";", function (err, result, fields) {
+            if(result.length == 0){
+                callback({code: 404, message: 'User Does Not Exist'}, null);
+                return;
+            }
             user.authentication = result[1][0].token;
             callback(null, user);
         });
@@ -162,6 +171,11 @@ var routes = function (con) {
 
     function getUserFromToken(token, callback) {
         con.query("SELECT * FROM users WHERE token='" + token + "';", function (err, result, fields) {
+            if(result.length == 0){
+                callback({code: 404, message: 'User With Token Does Not Exist'}, null);
+                return;
+            }
+
             var user = {
                 user: {
                     ID: result[0].ID,

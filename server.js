@@ -19,7 +19,10 @@ var con = mysql.createConnection({
     multipleStatements: true
 });
 con.connect(function (err) {
-    if (err) throw err;
+    if(err){
+        callback({code: 502, message: 'Invalid Server'}, null);
+        return;
+    }
     console.log('Connected!');
 })
 var userRouter = require('./app/routers/userRoutes.js')(con);
@@ -34,6 +37,10 @@ app.use(function (req, res, next) {
         return;
     }
     con.query("SELECT expires FROM users WHERE token='" + token + "'", function (err, result, fields) {
+        if(result.length == 0){
+            callback({code: 400, message: 'Bad Request'}, null);
+            return;
+        }
         if (result[0].expires < new Date()) {
             delete req.headers.authentication;
         };
