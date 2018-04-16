@@ -240,10 +240,15 @@ var routes = function (con) {
 
     function getEvent(eventId, obj, callback) {
         con.query("SELECT * FROM events WHERE ID=" + eventId + ';', function (err, result, fields) {
-            obj.Event = result[0];
+        if (err){
+            //This is not final error message.
+            return callback(err);
+        }
+         
+            obj.Event = result;
             callback(null, obj);
             return;
-        });
+         } );
     };
 
     function deleteEvent(eventId, obj, callback) {
