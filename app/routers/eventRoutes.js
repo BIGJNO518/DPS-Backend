@@ -90,7 +90,7 @@ var routes = function (con) {
             async.apply(function (job, obj, callback) {
                 // User isn't admin, can't make change
                 if (!obj.permissions.admin) {
-                    callback({code: 201, message: "Unauthorized"}, null);
+                    callback({status: 201, message: "Unauthorized"}, null);
                 }
 
                 // ID will be -1 for new job, ID will be set for update
@@ -111,7 +111,7 @@ var routes = function (con) {
         ],
         function (err, result) {
             if (err) {
-                res.status(err.code).send(err.message)
+                res.status(err.status).send(err.message)
             } else {
                 res.status(200).send();
             }
@@ -239,7 +239,7 @@ var routes = function (con) {
         }
         con.query("SELECT * FROM users WHERE token='" + token + "';", function (err, result, fields) {
             if(err){
-                callback({code: 400, message: 'Error Getting Token'}, null);
+                callback({status: 400, message: 'Error Getting Token'}, null);
                 return;
             }
             callback(null, {permissions: {admin: result[0].admin, employee: result[0].employee, volunteer: result[0].volunteer, developer: result[0].developer}});
@@ -251,11 +251,11 @@ var routes = function (con) {
         con.query("SELECT * FROM events WHERE ID=" + eventId + ';', function (err, result, fields) {
 
             if(err){
-                callback({code: 400, message: 'Error Getting Event'}, null);
+                callback({status: 400, message: 'Error Getting Event'}, null);
                 return;
             }
             if(result.length == 0){
-                callback({code: 404, message: "Does not exist"}, null);
+                callback({status: 404, message: "Does not exist"}, null);
                 return;
             }
 
@@ -267,12 +267,12 @@ var routes = function (con) {
 
     function deleteEvent(eventId, obj, callback) {
         if (!obj.permissions.admin || !obj.permissions.employee) {
-            callback({code: 401, message: "Unauthorized"}, null);
+            callback({status: 401, message: "Unauthorized"}, null);
             return;
         }
 
         con.query("UPDATE Events SET isDeleted = TRUE WHERE Events.ID=" + eventId + ';', function (err, result, fields) {
-            callback({code: 200, message: "Succesfully Deleted"}, null);
+            callback({status: 200, message: "Succesfully Deleted"}, null);
             return;
         });
     };
@@ -282,7 +282,7 @@ var routes = function (con) {
         con.query("SELECT jobs.ID, jobs.name, jobs.startTime, jobs.endTime, jobs.uid, users.name AS username, users.email " + 
             "FROM jobs LEFT OUTER JOIN users ON jobs.uid=users.ID " + "WHERE eid=" + eventId + ";", function (err, result, fields) {
                 if(result.length == 0){
-                    callback({code: 400, message: 'Error Getting Job'}, null);
+                    callback({status: 400, message: 'Error Getting Job'}, null);
                     return;
                 }
               obj.Event.jobs = [];
@@ -313,7 +313,7 @@ var routes = function (con) {
         con.query("SELECT * FROM users WHERE token='" + token + "';", function (err, result, fields) {
             // If there was an error.
             if (err) {
-                callback({code: 400, message: 'Error Getting Token'});
+                callback({status: 400, message: 'Error Getting Token'});
             }
 
             // If there was no user found send anonymous permissions

@@ -27,7 +27,7 @@ var routes = function (con) {
                 ], 
                 function (err, results) {
                 if (err) {
-                    res.status(err.code).send(err.message);
+                    res.status(err.status).send(err.message);
                     return;
                 }
                 res.json(results);
@@ -70,7 +70,7 @@ var routes = function (con) {
                 user.user.phoneNumber + "', '" + 
                 user.user.email + "', AES_ENCRYPT(MD5('" + user.user.password + "'), UNHEX(SHA2('SecretDPSPassphrase', 512))));", function (err, result, fields) {
                     if(err){
-                        callback({code: 400, message: 'Bad Request'}, null);
+                        callback({status: 400, message: 'Bad Request'}, null);
                         return;
                     }
                     delete user.user.password;
@@ -81,7 +81,7 @@ var routes = function (con) {
             function (user, callback) {
                 con.query("UPDATE users SET token=MD5(" + user.user.ID + " + NOW()),expires=DATE_ADD(NOW(), INTERVAL 30 DAY) WHERE ID=" + user.user.ID + "; SELECT token FROM users WHERE id=" + user.user.ID + ";", function (err, result, fields) {
                     if(result.length == 0){
-                        callback({code: 400, message: 'Bad Request'}, null);
+                        callback({status: 400, message: 'Bad Request'}, null);
                         return;
                     }
                     user.authentication = result[1][0].token;
@@ -136,7 +136,7 @@ var routes = function (con) {
                 callback(err, null);
                 return;
             } else if (result.length == 0) {
-                callback({code: 406, message: 'Email or password are incorrect.'}, null);
+                callback({status: 406, message: 'Email or password are incorrect.'}, null);
                 return;
             };
             var user = {
@@ -161,7 +161,7 @@ var routes = function (con) {
     function updateToken(user, callback) {
         con.query("UPDATE users SET token=MD5(" + user.user.ID +" + NOW()), expires=DATE_ADD(NOW(), INTERVAL 30 DAY) WHERE ID=" + user.user.ID + "; SELECT token FROM users WHERE ID=" + user.user.ID + ";", function (err, result, fields) {
             if(result.length == 0){
-                callback({code: 404, message: 'User Does Not Exist'}, null);
+                callback({status: 404, message: 'User Does Not Exist'}, null);
                 return;
             }
             user.authentication = result[1][0].token;
@@ -172,7 +172,7 @@ var routes = function (con) {
     function getUserFromToken(token, callback) {
         con.query("SELECT * FROM users WHERE token='" + token + "';", function (err, result, fields) {
             if(result.length == 0){
-                callback({code: 404, message: 'User With Token Does Not Exist'}, null);
+                callback({status: 404, message: 'User With Token Does Not Exist'}, null);
                 return;
             }
 
