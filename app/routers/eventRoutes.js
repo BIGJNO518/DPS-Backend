@@ -281,10 +281,10 @@ var routes = function (con) {
     function getJobs(eventId, obj, callback) {
         con.query("SELECT jobs.ID, jobs.name, jobs.startTime, jobs.endTime, jobs.uid, users.name AS username, users.email " + 
             "FROM jobs LEFT OUTER JOIN users ON jobs.uid=users.ID " + "WHERE eid=" + eventId + ";", function (err, result, fields) {
-                if(result.length == 0){
-                    callback({status: 400, message: 'Error Getting Job'}, null);
-                    return;
-                }
+                // if(result.length == 0){
+                //     callback({status: 400, message: 'Error Getting Job'}, null);
+                //     return;
+                // }
               obj.Event.jobs = [];
               for (var i = 0; i < result.length; i++) {
                     var thisJob = {
