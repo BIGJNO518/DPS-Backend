@@ -6,6 +6,15 @@ INSERT INTO users (name, phoneNumber, email, password) VALUE ('Daniel Foote', '5
 SET @dan_id = LAST_INSERT_ID();
 UPDATE users SET token=MD5(@dan_id + NOW()), expires=DATE_ADD(NOW(), INTERVAL 30 DAY) WHERE ID=@dan_id;
 
+INSERT INTO users (name, phoneNumber, email, password) VALUE ('Matt Parrella', '78437892', 'parrellam617@strose.edu', AES_ENCRYPT(MD5('password'), UNHEX(SHA2('SecretDPSPassphrase', 512))));
+SET @matt_id = LAST_INSERT_ID();
+UPDATE users SET token=MD5(@matt_id + NOW()), expires=DATE_ADD(NOW(), INTERVAL 30 DAY) WHERE ID=@matt_id;
+
+INSERT INTO users (name, phoneNumber, email, password) VALUE ('Jake Zembrzuski', '123', 'zembrzuski213@strose.edu', AES_ENCRYPT(MD5('password'), UNHEX(SHA2('SecretDPSPassphrase', 512))));
+SET @jake_id = LAST_INSERT_ID();
+UPDATE users SET token=MD5(@jake_id + NOW()), expires=DATE_ADD(NOW(), INTERVAL 30 DAY) WHERE ID=@jake_id;
+
+
 -- Update some users permissions
 UPDATE users SET admin=True, employee=True, volunteer=True, developer=True WHERE email='danfoote104227@gmail.com';
 
@@ -17,5 +26,5 @@ SET @main_street_eid = LAST_INSERT_ID();
 -- Add some Jobs
 INSERT INTO jobs (eid, name, startTime, endTime, uid) VALUES
 (@main_street_eid, 'Bagger', concat(DATE_ADD(CURDATE(), INTERVAL 7 DAY), ' 08:00:00'), concat(DATE_ADD(CURDATE(), INTERVAL 7 DAY), ' 10:00:00'), @dan_id),
-(@main_street_eid, 'Entertainment', concat(DATE_ADD(CURDATE(), INTERVAL 7 DAY), ' 08:00:00'), concat(DATE_ADD(CURDATE(), INTERVAL 7 DAY), ' 10:00:00'), null),
+(@main_street_eid, 'Entertainment', concat(DATE_ADD(CURDATE(), INTERVAL 7 DAY), ' 08:00:00'), concat(DATE_ADD(CURDATE(), INTERVAL 7 DAY), ' 10:00:00'), @matt_id),
 (@main_street_eid, 'Traffic Stopper', concat(DATE_ADD(CURDATE(), INTERVAL 7 DAY), ' 08:00:00'), concat(DATE_ADD(CURDATE(), INTERVAL 7 DAY), ' 10:00:00'), null)
