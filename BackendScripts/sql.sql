@@ -1,0 +1,52 @@
+DROP DATABASE IF EXISTS dpsbackend;
+CREATE DATABASE dpsbackend;
+USE dpsbackend;
+
+CREATE TABLE `users` (
+	`ID` INT NOT NULL AUTO_INCREMENT,
+	`token` varchar(32),
+	`expires` DATETIME,
+	`name` VARCHAR(255) NOT NULL,
+	`email` VARCHAR(255) NOT NULL,
+	`phoneNumber` VARCHAR(255) NOT NULL,
+	`password` blob NOT NULL,
+	`admin` BOOLEAN NOT NULL DEFAULT False,
+	`employee` BOOLEAN NOT NULL DEFAULT False,
+	`volunteer` BOOLEAN NOT NULL DEFAULT True,
+	`developer` BOOLEAN NOT NULL DEFAULT False,
+	PRIMARY KEY (`ID`)
+);
+
+CREATE TABLE `events` (
+	`ID` INT NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(255) NOT NULL,
+	`startTime` DATETIME NOT NULL,
+	`endTime` DATETIME NOT NULL,
+	`description` VARCHAR(255) NOT NULL,
+	`isDeleted` BOOLEAN NOT NULL DEFAULT False,
+	PRIMARY KEY (`ID`)
+);
+
+CREATE TABLE `jobs` (
+	`ID` INT NOT NULL AUTO_INCREMENT,
+	`eid` INT NOT NULL,
+	`name` VARCHAR(255) NOT NULL,
+	`startTime` DATETIME NOT NULL,
+	`endTime` DATETIME NOT NULL,
+	`uid` INT,
+	PRIMARY KEY (`ID`)
+);
+
+CREATE TABLE `messages` (
+	`ID` INT NOT NULL AUTO_INCREMENT,
+	`from` INT NOT NULL,
+	`message` VARCHAR(255) NOT NULL,
+	`time` DATETIME NOT NULL,
+	PRIMARY KEY (`ID`)
+);
+
+ALTER TABLE `messages` ADD CONSTRAINT `messages_fk0` FOREIGN KEY (`from`) REFERENCES `users`(`ID`);
+
+ALTER TABLE `jobs` ADD CONSTRAINT `jobs_fk0` FOREIGN KEY (`eid`) REFERENCES `events`(`ID`);
+
+ALTER TABLE `jobs` ADD CONSTRAINT `jobs_fk1` FOREIGN KEY (`uid`) REFERENCES `users`(`ID`);

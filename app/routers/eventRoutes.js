@@ -61,7 +61,7 @@ var routes = function (con) {
             }
         ], function (err, results) {
             if (err) {
-                res.status(500).send();
+                res.status(err.status).send(err.message);
             } else {
                 res.status(200).send();
             }
@@ -90,7 +90,7 @@ var routes = function (con) {
             async.apply(function (job, obj, callback) {
                 // User isn't admin, can't make change
                 if (!obj.permissions.admin) {
-                    callback({code: 201, message: "Unauthorized"}, null);
+                    callback({status: 201, message: "Unauthorized"}, null);
                 }
 
                 // ID will be -1 for new job, ID will be set for update
@@ -111,15 +111,15 @@ var routes = function (con) {
         ],
         function (err, result) {
             if (err) {
-                res.status(err.code).send(err.message)
+                res.status(err.status).send(err.message)
             } else {
                 res.status(200).send();
             }
             console.log(result);
         })
 
-                // Place holder for deleting an event
-        eventRouter.get('/delete/:eventId', function (req, res) {
+        //deleting an event
+        eventRouter.delete('/:eventId', function (req, res) {
                     async.waterfall([
                     async.apply(getUserFromToken, req.headers.authentication),
                     async.apply(deleteEvent, req.param('eventId'))
@@ -193,7 +193,7 @@ var routes = function (con) {
                   event.startTime + "/1000)), endTime=from_unixtime(FLOOR(" + event.endTime + "/1000)), description='" + 
                   event.description + "' WHERE id=" + event.ID + ";", function (err, result, fields) {
                     if (err) {
-                        res.status(500).send('Error updating Event');
+                        res.status(400).send('Error updating Event');
                         return;
                     }
                     res.json(event)
@@ -213,15 +213,20 @@ var routes = function (con) {
             async.apply(getPermissionFromToken, req.headers.authentication)
             ], function (err, results) {
             // Check if permitted to make change
-            if (err || results.permissions.volunteer != 1) {
+            if(err){
+                res.status(err.status).send(err.message)
+                return;
+            }
+
+            if (results.permissions.volunteer != 1) {
                 res.status(401).send('Unauthorized');
                 return;
             }
             con.query("UPDATE jobs SET uid=" + req.body.userId + " WHERE ID=" + req.params.jobId, function (err, result, fields) {
                 if (err) {
-                    res.status(500).send('Error volunteering for job');
+                    res.status(400).send('Error Updating Job');
                 } else {
-                    res.status(200).send();
+                    res.status(200).send('Update Complete');
                 }
             });
         });
@@ -233,6 +238,10 @@ var routes = function (con) {
             return;
         }
         con.query("SELECT * FROM users WHERE token='" + token + "';", function (err, result, fields) {
+            if(err){
+                callback({status: 400, message: 'Error Getting Token'}, null);
+                return;
+            }
             callback(null, {permissions: {admin: result[0].admin, employee: result[0].employee, volunteer: result[0].volunteer, developer: result[0].developer}});
             return;
         });
@@ -240,12 +249,26 @@ var routes = function (con) {
 
     function getEvent(eventId, obj, callback) {
         con.query("SELECT * FROM events WHERE ID=" + eventId + ';', function (err, result, fields) {
+<<<<<<< HEAD
         if (err){
             //This is not final error message.
             return callback(err);
         }
          
             obj.Event = result;
+=======
+
+            if(err){
+                callback({status: 400, message: 'Error Getting Event'}, null);
+                return;
+            }
+            if(result.length == 0){
+                callback({status: 404, message: "Does not exist"}, null);
+                return;
+            }
+
+            obj.Event = result[0];
+>>>>>>> 803ca6ca5de3cd9069993860978852e84e7aee5d
             callback(null, obj);
             return;
          } );
@@ -253,12 +276,12 @@ var routes = function (con) {
 
     function deleteEvent(eventId, obj, callback) {
         if (!obj.permissions.admin || !obj.permissions.employee) {
-            callback({code: 400, message: "Unauthorized"}, null);
+            callback({status: 401, message: "Unauthorized"}, null);
             return;
         }
 
         con.query("UPDATE Events SET isDeleted = TRUE WHERE Events.ID=" + eventId + ';', function (err, result, fields) {
-            callback({code: 200, message: "Succesfully Deleted"}, null);
+            callback({status: 200, message: "Succesfully Deleted"}, null);
             return;
         });
     };
@@ -267,6 +290,10 @@ var routes = function (con) {
     function getJobs(eventId, obj, callback) {
         con.query("SELECT jobs.ID, jobs.name, jobs.startTime, jobs.endTime, jobs.uid, users.name AS username, users.email " + 
             "FROM jobs LEFT OUTER JOIN users ON jobs.uid=users.ID " + "WHERE eid=" + eventId + ";", function (err, result, fields) {
+                // if(result.length == 0){
+                //     callback({status: 400, message: 'Error Getting Job'}, null);
+                //     return;
+                // }
               obj.Event.jobs = [];
               for (var i = 0; i < result.length; i++) {
                     var thisJob = {
@@ -295,7 +322,7 @@ var routes = function (con) {
         con.query("SELECT * FROM users WHERE token='" + token + "';", function (err, result, fields) {
             // If there was an error.
             if (err) {
-                callback({code: 401, message: 'Unauthorized'});
+                callback({status: 400, message: 'Error Getting Token'});
             }
 
             // If there was no user found send anonymous permissions
