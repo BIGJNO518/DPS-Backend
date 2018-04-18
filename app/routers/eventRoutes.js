@@ -226,7 +226,7 @@ var routes = function (con) {
                 if (err) {
                     res.status(400).send('Error Updating Job');
                 } else {
-                    res.status(200).send('Update Complete');
+                    res.status(200).send();
                 }
             });
         });
