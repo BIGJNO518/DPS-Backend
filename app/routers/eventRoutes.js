@@ -6,7 +6,7 @@ var routes = function (con) {
 
     // Get all Events
     eventRouter.get('/', function (req, res) {
-        con.query("SELECT * FROM Events WHERE startTime > NOW() AND isDeleted = false", function (err, result, fields) {
+        con.query("SELECT * FROM Events WHERE startTime > NOW() AND isDeleted = false;", function (err, result, fields) {
             res.json(result);
         });
     });
@@ -119,21 +119,6 @@ var routes = function (con) {
             }
             console.log(result);
         })
-
-        //deleting an event
-        eventRouter.delete('/:eventId', function (req, res) {
-                    async.waterfall([
-                    async.apply(getUserFromToken, req.headers.authentication),
-                    async.apply(deleteEvent, req.param('eventId'))
-                     ] ,function (err, results) {
-
-                            res.status(err.status).send();
-                            return;
-
-
-                        res.json(null);
-                    });
-                });
         
         // async.waterfall([
         //     async.apply(getUserFromToken, token),
@@ -156,6 +141,21 @@ var routes = function (con) {
         //         res.status(200).send();
         //     }
         // });
+    });
+
+    //deleting an event
+    eventRouter.delete('/:eventId', function (req, res) {
+                async.waterfall([
+                async.apply(getUserFromToken, req.headers.authentication),
+                async.apply(deleteEvent, req.param('eventId'))
+                 ] ,function (err, results) {
+
+                    res.status(err.status).send();
+                    return;
+
+
+                    res.json(null);
+                });
     });
     
 
