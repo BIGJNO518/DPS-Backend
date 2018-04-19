@@ -6,7 +6,7 @@ var routes = function (con) {
 
     // Get all Events
     eventRouter.get('/', function (req, res) {
-        con.query("SELECT * FROM Events WHERE startTime > NOW()", function (err, result, fields) {
+        con.query("SELECT * FROM Events WHERE startTime > NOW() AND isDeleted = false", function (err, result, fields) {
             res.json(result);
         });
     });
