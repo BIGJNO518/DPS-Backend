@@ -128,7 +128,28 @@ var routes = function (con) {
             results.authentication = token;
             res.json(results);
         });
-    })
+    });
+
+    // Get list of all registered users
+    userRouter.get('/', function (req, res) {
+        var token = req.headers.authentication;
+        if (!token) {
+            res.status(401).send("Unauthorized");
+            return;
+        }
+        async.waterfall([
+            async.apply(getUserFromToken, token)
+        ], function (err, results) {
+            if (!results.permissions.admin) {
+                res.status(401).send("Unauthorized");
+                return;
+            }
+            con.query('SELECT ID, `name`, email, phoneNumber FROM users;', function (err, result, fields) {
+                res.send(result);
+            })
+
+        })
+    });
 
     function getUser(email, password, callback) {
         con.query("SELECT * FROM users WHERE email = '" + email + "' AND password = AES_ENCRYPT(MD5('" + password + "'), UNHEX(SHA2('SecretDPSPassphrase', 512)))", function (err, result, fields) {

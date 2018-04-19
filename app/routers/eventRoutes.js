@@ -22,6 +22,8 @@ var routes = function (con) {
                 res.status(err.status).send(err.message);
                 return;
             }
+
+
             // filter results if not authorized.
             if (!results.permissions.admin) {
                 for (var i = 0; i < results.Event.jobs.length; i++) {
@@ -255,7 +257,8 @@ var routes = function (con) {
                 return;
             }
             if(result.length == 0){
-                callback({status: 404, message: "Does not exist"}, null);
+                obj.Event = null;
+                callback(null, obj);
                 return;
             }
 
@@ -280,7 +283,7 @@ var routes = function (con) {
     //gets the job from the particular event
     function getJobs(eventId, obj, callback) {
         con.query("SELECT jobs.ID, jobs.name, jobs.startTime, jobs.endTime, jobs.uid, users.name AS username, users.email " + 
-            "FROM jobs LEFT OUTER JOIN users ON jobs.uid=users.ID " + "WHERE eid=" + eventId + ";", function (err, result, fields) {s
+            "FROM jobs LEFT OUTER JOIN users ON jobs.uid=users.ID " + "WHERE eid=" + eventId + ";", function (err, result, fields) {
               obj.Event.jobs = [];
               for (var i = 0; i < result.length; i++) {
                     var thisJob = {
