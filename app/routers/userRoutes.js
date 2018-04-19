@@ -170,7 +170,7 @@ var routes = function (con) {
     };
 
     function getUserFromToken(token, callback) {
-        con.query("SELECT * FROM users WHERE token='" + token + "';", function (err, result, fields) {
+        con.query("SELECT * FROM users WHERE token='" + token + "' AND expires > NOW();", function (err, result, fields) {
             if(result.length == 0){
                 callback({status: 404, message: 'User With Token Does Not Exist'}, null);
                 return;

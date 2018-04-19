@@ -90,7 +90,7 @@ var routes = function (con) {
             async.apply(function (job, obj, callback) {
                 // User isn't admin, can't make change
                 if (!obj.permissions.admin) {
-                    callback({status: 201, message: "Unauthorized"}, null);
+                    callback({status: 401, message: "Unauthorized"}, null);
                 }
 
                 // ID will be -1 for new job, ID will be set for update
@@ -238,8 +238,8 @@ var routes = function (con) {
             return;
         }
         con.query("SELECT * FROM users WHERE token='" + token + "';", function (err, result, fields) {
-            if(err){
-                callback({status: 400, message: 'Error Getting Token'}, null);
+            if(result.length == 0){
+                callback(null, {permissions: {admin: false, employee: false, volunteer: false, developer: false}});
                 return;
             }
             callback(null, {permissions: {admin: result[0].admin, employee: result[0].employee, volunteer: result[0].volunteer, developer: result[0].developer}});
@@ -280,11 +280,7 @@ var routes = function (con) {
     //gets the job from the particular event
     function getJobs(eventId, obj, callback) {
         con.query("SELECT jobs.ID, jobs.name, jobs.startTime, jobs.endTime, jobs.uid, users.name AS username, users.email " + 
-            "FROM jobs LEFT OUTER JOIN users ON jobs.uid=users.ID " + "WHERE eid=" + eventId + ";", function (err, result, fields) {
-                if(result.length == 0){
-                    callback({status: 400, message: 'Error Getting Job'}, null);
-                    return;
-                }
+            "FROM jobs LEFT OUTER JOIN users ON jobs.uid=users.ID " + "WHERE eid=" + eventId + ";", function (err, result, fields) {s
               obj.Event.jobs = [];
               for (var i = 0; i < result.length; i++) {
                     var thisJob = {
@@ -311,11 +307,6 @@ var routes = function (con) {
 
     function getUserFromToken(token, callback) {
         con.query("SELECT * FROM users WHERE token='" + token + "';", function (err, result, fields) {
-            // If there was an error.
-            if (err) {
-                callback({status: 400, message: 'Error Getting Token'});
-            }
-
             // If there was no user found send anonymous permissions
             if (result.length === 0) {
                 var user = {
