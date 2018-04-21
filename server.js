@@ -23,6 +23,8 @@ con.connect(function (err) {
         callback({status: 502, message: 'Invalid Server'}, null);
         return;
     }
+
+   
     console.log('Connected!');
 })
 var userRouter = require('./app/routers/userRoutes.js')(con);
