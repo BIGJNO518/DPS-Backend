@@ -8,6 +8,10 @@ var routes = function (con) {
     eventRouter.get('/', function (req, res) {
         con.query("SELECT * FROM Events WHERE startTime > NOW() AND isDeleted = false;", function (err, result, fields) {
             res.json(result);
+            if (err) {
+                res.status(err.status).send(err.message);
+                return;
+            }
         });
     });
 

@@ -1,0 +1,24 @@
+
+
+pm.test("Response time is less than 200ms", function () {
+    pm.expect(pm.response.responseTime).to.be.below(200);
+});
+
+pm.test("response is ok", function () {
+    pm.response.to.have.status(200);
+});
+
+
+pm.test("Catch error connecting", function () {
+    pm.response.to.have.status(404);
+});
+
+pm.test("testing", function () {
+    pm.response.to.have.status(401);
+});
+
+
+pm.test("Invalid Extension", function () {
+    pm.response.to.have.status(402);
+});
+
