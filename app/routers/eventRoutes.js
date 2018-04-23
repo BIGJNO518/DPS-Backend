@@ -161,6 +161,21 @@ var routes = function (con) {
                     res.json(null);
                 });
     });
+
+    //deleting job
+    eventRouter.delete('/:eventId/:jobId', function (req, res) {
+        async.waterfall([
+        async.apply(getUserFromToken, req.headers.authentication),
+        async.apply(deleteJob, req.param('eventId'))
+         ] ,function (err, results) {
+
+            res.status(err.status).send();
+            return;
+
+
+            res.json(null);
+        });
+});
     
 
     // Update/Add Event
@@ -256,23 +271,44 @@ var routes = function (con) {
     function getEvent(eventId, obj, callback) {
         con.query("SELECT * FROM events WHERE ID=" + eventId + ';', function (err, result, fields) {
 
+        if (err){
+            //This is not final error message.
+            return callback(err);
+        }
+         
+            obj.Event = result;
+
+
             if(err){
                 callback({status: 400, message: 'Error Getting Event'}, null);
                 return;
             }
             if(result.length == 0){
                 obj.Event = null;
-                callback(null, obj);
+                callback({status: 400, message: 'Error Getting Event'}, obj);
                 return;
             }
 
             obj.Event = result[0];
+//>>>>>>> 803ca6ca5de3cd9069993860978852e84e7aee5d
             callback(null, obj);
+            return;
+         } );
+    };
+
+    function deleteEvent(eventId, obj, callback) {
+        if (!obj.permissions.admin || !obj.permissions.employee) {
+            callback({status: 401, message: "Unauthorized"}, null);
+            return;
+        }
+
+        con.query("UPDATE jobs SET isDeleted = TRUE WHERE Events.ID=" + eventId + ';', function (err, result, fields) {
+            callback({status: 200, message: "Succesfully Deleted"}, null);
             return;
         });
     };
 
-    function deleteEvent(eventId, obj, callback) {
+    function deleteJob(eventId, obj, callback) {
         if (!obj.permissions.admin || !obj.permissions.employee) {
             callback({status: 401, message: "Unauthorized"}, null);
             return;

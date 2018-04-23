@@ -21,7 +21,6 @@ var routes = function (con) {
                 }
             });
         } else {
-            console.log(req.headers)
             async.waterfall([
                 async.apply(getUser, req.headers.email, req.headers.password),
                 updateToken
@@ -94,14 +93,13 @@ var routes = function (con) {
                 res.send(err);
             }
             res.json(results);
-        })
+        }) 
     });
 
     // Update user information
     userRouter.put('/', function (req, res) {
         var token = req.headers.authentication;
         if (!token) {
-            
             res.status(401).send("Unauthorized");
             return;
         }
@@ -117,7 +115,6 @@ var routes = function (con) {
                     callback(null, user)
                     return;
                 }
-                
                 res.status(401).send("Unauthorized");
                 return;
             },
@@ -136,9 +133,7 @@ var routes = function (con) {
     // Get list of all registered users
     userRouter.get('/', function (req, res) {
         var token = req.headers.authentication;
-        console.log("log");
         if (!token) {
-            
             res.status(401).send("Unauthorized");
             return;
         }
@@ -196,7 +191,7 @@ var routes = function (con) {
     };
 
     function getUserFromToken(token, callback) {
-        con.query("SELECT * FROM users WHERE token='" + token + "' AND expires > NOW();", function (err, result, fields) {
+        con.query("SELECT * FROM users WHERE token='" + token + "';", function (err, result, fields) {
             if(result.length == 0){
                 callback({status: 404, message: 'User With Token Does Not Exist'}, null);
                 return;
