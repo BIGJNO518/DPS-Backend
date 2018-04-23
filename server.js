@@ -20,7 +20,7 @@ var con = mysql.createConnection({
 });
 con.connect(function (err) {
     if(err){
-        callback({status: 502, message: 'Invalid Server'}, null);
+        console.log(err);
         return;
     }
 
@@ -38,10 +38,6 @@ app.use(function (req, res, next) {
         return;
     }
     con.query("SELECT expires FROM users WHERE token='" + token + "'", function (err, result, fields) {
-        if(result.length == 0){
-            callback({status: 400, message: 'Bad Request'}, null);
-            return;
-        }
         if (result[0].expires < new Date()) {
             delete req.headers.authentication;
         };
