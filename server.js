@@ -20,7 +20,7 @@ var con = mysql.createConnection({
 });
 con.connect(function (err) {
     if(err){
-        callback({status: 502, message: 'Invalid Server'}, null);
+        console.log(err);
         return;
     }
 
