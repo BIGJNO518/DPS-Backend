@@ -4,10 +4,12 @@ var async = require('async');
 // route '/api/user'
 var routes = function (con) {
     var userRouter = express.Router();
+    
 
     // Login
     userRouter.get('/authenticate', function (req, res) {
         var token = req.headers.authentication;
+        
         if (token && !req.headers.email) {
             async.waterfall([
                 async.apply(getUserFromToken, token)
@@ -21,15 +23,19 @@ var routes = function (con) {
                 }
             });
         } else {
-            async.waterfall([
+            
+            async.waterfall([          
                 async.apply(getUser, req.headers.email, req.headers.password),
                 updateToken
                 ], 
-                function (err, results) {
+                function (err, results) {     
                 if (err) {
-                    res.status(err.status).send(err.message);
+                    //thise might be the error for "api/user/authenticate"
+                    res.status(400).send(err.message);
+                    
                     return;
                 }
+                console.log(results);
                 res.json(results);
             });
         }
@@ -99,10 +105,11 @@ var routes = function (con) {
     // Update user information
     userRouter.put('/', function (req, res) {
         var token = req.headers.authentication;
-        if (!token) {
-            res.status(401).send("Unauthorized");
-            return;
-        }
+
+       // if (!token) {
+          //  res.status(401).send("Unauthorized");
+        // return;
+      // }
 
         async.waterfall([
             async.apply(getUserFromToken, token),
@@ -153,14 +160,20 @@ var routes = function (con) {
 
     function getUser(email, password, callback) {
         con.query("SELECT * FROM users WHERE email = '" + email + "' AND password = AES_ENCRYPT(MD5('" + password + "'), UNHEX(SHA2('SecretDPSPassphrase', 512)))", function (err, result, fields) {
+            
             if (err) {
+                
                 callback(err, null);
                 return;
             } else if (result.length == 0) {
+                console.log(email);
+                console.log(password);
                 callback({status: 406, message: 'Email or password are incorrect.'}, null);
                 return;
             };
+        
             var user = {
+                
                 user: {
                     ID: result[0].ID,
                     name: result[0].name,
@@ -175,6 +188,7 @@ var routes = function (con) {
                     developer: result[0].developer
                 }
             };
+            
             callback(null, user);
         });
     };

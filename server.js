@@ -24,7 +24,6 @@ con.connect(function (err) {
         return;
     }
 
-   
     console.log('Connected!');
 })
 var userRouter = require('./app/routers/userRoutes.js')(con);
