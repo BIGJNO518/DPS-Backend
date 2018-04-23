@@ -93,7 +93,7 @@ var routes = function (con) {
                 res.send(err);
             }
             res.json(results);
-        })
+        }) 
     });
 
     // Update user information
