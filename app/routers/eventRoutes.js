@@ -308,13 +308,13 @@ var routes = function (con) {
         });
     };
 
-    function deleteJob(eventId, jobID, obj, callback) {
+    function deleteJob(eventId, jobId, obj, callback) {
         if (!obj.permissions.admin || !obj.permissions.employee) {
             callback({status: 401, message: "Unauthorized"}, null);
             return;
         }
 
-        con.query("UPDATE jobs SET isDeleted = TRUE WHERE jobs.eid=" + eventId + ' AND jobs.ID =' + eventId + ';', function (err, result, fields) {
+        con.query("UPDATE jobs SET isDeleted = TRUE WHERE jobs.eid=" + eventId + ' AND jobs.ID =' + jobId + ';', function (err, result, fields) {
             callback({status: 200, message: "Succesfully Deleted"}, null);
             return;
         });
