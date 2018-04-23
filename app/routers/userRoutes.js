@@ -23,13 +23,8 @@ var routes = function (con) {
                 }
             });
         } else {
-<<<<<<< HEAD
             
             async.waterfall([          
-=======
-            console.log(req.headers)
-            async.waterfall([
->>>>>>> a588a688ae64d97e5770b84fe51dc45c60d0bd1e
                 async.apply(getUser, req.headers.email, req.headers.password),
                 updateToken
                 ], 
@@ -110,19 +105,11 @@ var routes = function (con) {
     // Update user information
     userRouter.put('/', function (req, res) {
         var token = req.headers.authentication;
-<<<<<<< HEAD
-
-       // if (!token) {
-          //  res.status(401).send("Unauthorized");
-        // return;
-      // }
-=======
         if (!token) {
             
             res.status(401).send("Unauthorized");
             return;
         }
->>>>>>> a588a688ae64d97e5770b84fe51dc45c60d0bd1e
 
         async.waterfall([
             async.apply(getUserFromToken, token),
