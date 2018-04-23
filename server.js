@@ -38,7 +38,7 @@ app.use(function (req, res, next) {
         return;
     }
     con.query("SELECT expires FROM users WHERE token='" + token + "'", function (err, result, fields) {
-        if (result[0].expires < new Date()) {
+        if (!result && result[0].expires < new Date()) {
             delete req.headers.authentication;
         };
         next();
