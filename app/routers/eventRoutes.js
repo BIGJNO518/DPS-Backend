@@ -249,14 +249,14 @@ var routes = function (con) {
 
     function getEvent(eventId, obj, callback) {
         con.query("SELECT * FROM events WHERE ID=" + eventId + ';', function (err, result, fields) {
-<<<<<<< HEAD
+
         if (err){
             //This is not final error message.
             return callback(err);
         }
          
             obj.Event = result;
-=======
+
 
             if(err){
                 callback({status: 400, message: 'Error Getting Event'}, null);
@@ -268,7 +268,7 @@ var routes = function (con) {
             }
 
             obj.Event = result[0];
->>>>>>> 803ca6ca5de3cd9069993860978852e84e7aee5d
+//>>>>>>> 803ca6ca5de3cd9069993860978852e84e7aee5d
             callback(null, obj);
             return;
          } );
