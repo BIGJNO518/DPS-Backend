@@ -161,6 +161,21 @@ var routes = function (con) {
                     res.json(null);
                 });
     });
+
+    //deleting job
+    eventRouter.delete('/:eventId/:jobId', function (req, res) {
+        async.waterfall([
+        async.apply(getUserFromToken, req.headers.authentication),
+        async.apply(deleteJob, req.param('eventId'))
+         ] ,function (err, results) {
+
+            res.status(err.status).send();
+            return;
+
+
+            res.json(null);
+        });
+});
     
 
     // Update/Add Event
@@ -268,6 +283,18 @@ var routes = function (con) {
 
             obj.Event = result[0];
             callback(null, obj);
+            return;
+        });
+    };
+
+    function deleteEvent(eventId, obj, callback) {
+        if (!obj.permissions.admin || !obj.permissions.employee) {
+            callback({status: 401, message: "Unauthorized"}, null);
+            return;
+        }
+
+        con.query("UPDATE jobs SET isDeleted = TRUE WHERE Events.ID=" + eventId + ';', function (err, result, fields) {
+            callback({status: 200, message: "Succesfully Deleted"}, null);
             return;
         });
     };
