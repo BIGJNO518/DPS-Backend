@@ -277,7 +277,7 @@ var routes = function (con) {
             }
             if(result.length == 0){
                 obj.Event = null;
-                callback(null, obj);
+                callback({status: 400, message: 'Error Getting Event'}, obj);
                 return;
             }
 
