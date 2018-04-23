@@ -6,8 +6,12 @@ var routes = function (con) {
 
     // Get all Events
     eventRouter.get('/', function (req, res) {
-        con.query("SELECT * FROM Events WHERE startTime > NOW()", function (err, result, fields) {
+        con.query("SELECT * FROM Events WHERE startTime > NOW() AND isDeleted = false;", function (err, result, fields) {
             res.json(result);
+            if (err) {
+                res.status(err.status).send(err.message);
+                return;
+            }
         });
     });
 
@@ -22,6 +26,8 @@ var routes = function (con) {
                 res.status(err.status).send(err.message);
                 return;
             }
+
+
             // filter results if not authorized.
             if (!results.permissions.admin) {
                 for (var i = 0; i < results.Event.jobs.length; i++) {
@@ -90,7 +96,7 @@ var routes = function (con) {
             async.apply(function (job, obj, callback) {
                 // User isn't admin, can't make change
                 if (!obj.permissions.admin) {
-                    callback({status: 201, message: "Unauthorized"}, null);
+                    callback({status: 401, message: "Unauthorized"}, null);
                 }
 
                 // ID will be -1 for new job, ID will be set for update
@@ -117,21 +123,6 @@ var routes = function (con) {
             }
             console.log(result);
         })
-
-        //deleting an event
-        eventRouter.delete('/:eventId', function (req, res) {
-                    async.waterfall([
-                    async.apply(getUserFromToken, req.headers.authentication),
-                    async.apply(deleteEvent, req.param('eventId'))
-                     ] ,function (err, results) {
-
-                            res.status(err.status).send(err.message);
-                            return;
-
-
-                        res.json(null);
-                    });
-                });
         
         // async.waterfall([
         //     async.apply(getUserFromToken, token),
@@ -155,6 +146,36 @@ var routes = function (con) {
         //     }
         // });
     });
+
+    //deleting an event
+    eventRouter.delete('/:eventId', function (req, res) {
+                async.waterfall([
+                async.apply(getUserFromToken, req.headers.authentication),
+                async.apply(deleteEvent, req.param('eventId'))
+                 ] ,function (err, results) {
+
+                    res.status(err.status).send();
+                    return;
+
+
+                    res.json(null);
+                });
+    });
+
+    //deleting job
+    eventRouter.delete('/:eventId/:jobId', function (req, res) {
+        async.waterfall([
+        async.apply(getUserFromToken, req.headers.authentication),
+        async.apply(deleteJob, req.param('eventId'))
+         ] ,function (err, results) {
+
+            res.status(err.status).send();
+            return;
+
+
+            res.json(null);
+        });
+});
     
 
     // Update/Add Event
@@ -238,8 +259,8 @@ var routes = function (con) {
             return;
         }
         con.query("SELECT * FROM users WHERE token='" + token + "';", function (err, result, fields) {
-            if(err){
-                callback({status: 400, message: 'Error Getting Token'}, null);
+            if(result.length == 0){
+                callback(null, {permissions: {admin: false, employee: false, volunteer: false, developer: false}});
                 return;
             }
             callback(null, {permissions: {admin: result[0].admin, employee: result[0].employee, volunteer: result[0].volunteer, developer: result[0].developer}});
@@ -263,7 +284,8 @@ var routes = function (con) {
                 return;
             }
             if(result.length == 0){
-                callback({status: 404, message: "Does not exist"}, null);
+                obj.Event = null;
+                callback({status: 400, message: 'Error Getting Event'}, obj);
                 return;
             }
 
@@ -280,6 +302,18 @@ var routes = function (con) {
             return;
         }
 
+        con.query("UPDATE jobs SET isDeleted = TRUE WHERE Events.ID=" + eventId + ';', function (err, result, fields) {
+            callback({status: 200, message: "Succesfully Deleted"}, null);
+            return;
+        });
+    };
+
+    function deleteJob(eventId, obj, callback) {
+        if (!obj.permissions.admin || !obj.permissions.employee) {
+            callback({status: 401, message: "Unauthorized"}, null);
+            return;
+        }
+
         con.query("UPDATE Events SET isDeleted = TRUE WHERE Events.ID=" + eventId + ';', function (err, result, fields) {
             callback({status: 200, message: "Succesfully Deleted"}, null);
             return;
@@ -290,10 +324,6 @@ var routes = function (con) {
     function getJobs(eventId, obj, callback) {
         con.query("SELECT jobs.ID, jobs.name, jobs.startTime, jobs.endTime, jobs.uid, users.name AS username, users.email " + 
             "FROM jobs LEFT OUTER JOIN users ON jobs.uid=users.ID " + "WHERE eid=" + eventId + ";", function (err, result, fields) {
-                // if(result.length == 0){
-                //     callback({status: 400, message: 'Error Getting Job'}, null);
-                //     return;
-                // }
               obj.Event.jobs = [];
               for (var i = 0; i < result.length; i++) {
                     var thisJob = {
@@ -320,11 +350,6 @@ var routes = function (con) {
 
     function getUserFromToken(token, callback) {
         con.query("SELECT * FROM users WHERE token='" + token + "';", function (err, result, fields) {
-            // If there was an error.
-            if (err) {
-                callback({status: 400, message: 'Error Getting Token'});
-            }
-
             // If there was no user found send anonymous permissions
             if (result.length === 0) {
                 var user = {

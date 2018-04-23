@@ -34,6 +34,7 @@ CREATE TABLE `jobs` (
 	`startTime` DATETIME NOT NULL,
 	`endTime` DATETIME NOT NULL,
 	`uid` INT,
+	`isDeleted` BOOLEAN NOT NULL DEFAULT False,
 	PRIMARY KEY (`ID`)
 );
 
