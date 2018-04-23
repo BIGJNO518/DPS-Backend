@@ -299,7 +299,7 @@ var routes = function (con) {
         });
     };
 
-    function deleteEvent(eventId, obj, callback) {
+    function deleteJob(eventId, obj, callback) {
         if (!obj.permissions.admin || !obj.permissions.employee) {
             callback({status: 401, message: "Unauthorized"}, null);
             return;
