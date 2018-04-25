@@ -1,4 +1,4 @@
-DROP DATABASE IF EXISTS dpsbackend;
+--DROP DATABASE IF EXISTS dpsbackend;
 CREATE DATABASE dpsbackend;
 USE dpsbackend;
 
