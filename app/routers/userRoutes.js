@@ -37,6 +37,7 @@ var routes = function (con) {
 
     // Register
     userRouter.put('/register', function (req, res) {
+        console.log(req.body);
         if (!(req.body.email && req.body.name && req.body.phoneNumber && req.body.password)) {
             res.status(406).send('Missing information');
         }
@@ -100,6 +101,7 @@ var routes = function (con) {
     userRouter.put('/', function (req, res) {
         var token = req.headers.authentication;
         if (!token) {
+
             res.status(401).send("Unauthorized");
             return;
         }
