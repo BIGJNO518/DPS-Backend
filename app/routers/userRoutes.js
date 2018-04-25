@@ -105,11 +105,11 @@ var routes = function (con) {
     // Update user information
     userRouter.put('/', function (req, res) {
         var token = req.headers.authentication;
-
-       // if (!token) {
-          //  res.status(401).send("Unauthorized");
-        // return;
-      // }
+        if (!token) {
+            
+            res.status(401).send("Unauthorized");
+            return;
+        }
 
         async.waterfall([
             async.apply(getUserFromToken, token),
