@@ -100,6 +100,10 @@ var routes = function (con) {
     userRouter.put('/', function (req, res) {
         var token = req.headers.authentication;
         if (!token) {
+<<<<<<< HEAD
+            
+=======
+>>>>>>> refs/remotes/origin/master
             res.status(401).send("Unauthorized");
             return;
         }

@@ -157,8 +157,6 @@ var routes = function (con) {
                     res.status(err.status).send();
                     return;
 
-
-                    res.json(null);
                 });
     });
 
@@ -166,14 +164,12 @@ var routes = function (con) {
     eventRouter.delete('/:eventId/:jobId', function (req, res) {
         async.waterfall([
         async.apply(getUserFromToken, req.headers.authentication),
-        async.apply(deleteJob, req.param('eventId'))
+        async.apply(deleteJob, req.param('eventId'), req.param('jobId'))
          ] ,function (err, results) {
 
             res.status(err.status).send();
             return;
 
-
-            res.json(null);
         });
 });
     
@@ -308,13 +304,13 @@ var routes = function (con) {
         });
     };
 
-    function deleteJob(eventId, obj, callback) {
+    function deleteJob(eventId, jobId, obj, callback) {
         if (!obj.permissions.admin || !obj.permissions.employee) {
             callback({status: 401, message: "Unauthorized"}, null);
             return;
         }
 
-        con.query("UPDATE Events SET isDeleted = TRUE WHERE Events.ID=" + eventId + ';', function (err, result, fields) {
+        con.query("UPDATE jobs SET isDeleted = TRUE WHERE jobs.eid=" + eventId + ' AND jobs.ID =' + jobId + ';', function (err, result, fields) {
             callback({status: 200, message: "Succesfully Deleted"}, null);
             return;
         });

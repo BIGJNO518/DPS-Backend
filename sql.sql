@@ -2,7 +2,7 @@ DROP DATABASE IF EXISTS dpsbackend;
 CREATE DATABASE dpsbackend;
 USE dpsbackend;
 
-CREATE TABLE `users` (
+CREATE TABLE  `users` (
 	`ID` INT NOT NULL AUTO_INCREMENT,
 	`token` varchar(32),
 	`expires` DATETIME,
