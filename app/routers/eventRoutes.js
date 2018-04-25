@@ -206,9 +206,10 @@ var routes = function (con) {
                     res.json(event);
                 });
             } else {
-                con.query("UPDATE events SET name='" + event.name + "', startTime=from_unixtime(FLOOR(" + 
-                  event.startTime + "/1000)), endTime=from_unixtime(FLOOR(" + event.endTime + "/1000)), description='" + 
-                  event.description + "' WHERE id=" + event.ID + ";", function (err, result, fields) {
+                con.query("UPDATE events SET name=" + con.escape(event.name) + ", startTime=from_unixtime(FLOOR(" + 
+ -                  event.startTime + "/1000)), endTime=from_unixtime(FLOOR(" + event.endTime + "/1000)), description=" + 
+ -                  con.escape(event.description) + " WHERE id=" + event.ID + ";", function (err, result, fields) {
+
                     if (err) {
                         res.status(400).send('Error updating Event');
                         return;
