@@ -28,7 +28,7 @@ con.connect(function (err) {
 })
 var userRouter = require('./app/routers/userRoutes.js')(con);
 var eventRouter = require('./app/routers/eventRoutes.js')(con);
-//var messageRouter = require('./app/routers/messageRoutes.js')(con);
+var messageRouter = require('./app/routers/messageRoutes.js')(con);
 
 // Check if authentication token has expired, if it has strip it off.
 app.use(function (req, res, next) {
@@ -49,7 +49,7 @@ app.use(function (req, res, next) {
 // all of our routes will be prefixed with /api
 app.use('/api/user', userRouter);
 app.use('/api/events', eventRouter);
-//app.use('/api/messages', messageRouter);
+app.use('/api/messages', messageRouter);
 
 // START THE SERVER
 // =============================================================================
