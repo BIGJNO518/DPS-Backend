@@ -1,5 +1,6 @@
 var express = require('express');
 var async = require('async');
+var nodemailer = require('nodemailer');
 
 var routes = function (con) {
     var messageRouter = express.Router();
@@ -7,6 +8,35 @@ var routes = function (con) {
     var clients = [];
     var isTyping = [];
 
+    messageRouter.put('/mail', function (req, res) {
+        const transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
+            auth: {
+                user: 'dpsamazingsite@gmail.com',
+                pass: '2L^RiH1q1ff4'
+            }
+        });
+
+        let mailOptions = {
+            from: '"' + req.body.name + '" <' + req.body.email + '>', // sender address
+            to: 'dpsamazingsite@gmail.com', // list of receivers
+            subject: req.body.subject, // Subject line
+            text: req.body.body, // plain text body
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                return console.log(error);
+            }
+            console.log('Message sent: %s', info.messageId);
+            // Preview only available when sending through an Ethereal account
+            console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+    
+            // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+            // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+        });
+    });
 
     messageRouter.ws('/echo', function (ws, req) {
         //Verify the token query parameter is valid and if so annotate the connection with the user information.
