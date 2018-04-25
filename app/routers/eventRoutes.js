@@ -157,8 +157,6 @@ var routes = function (con) {
                     res.status(err.status).send();
                     return;
 
-
-                    res.json(null);
                 });
     });
 
@@ -172,8 +170,6 @@ var routes = function (con) {
             res.status(err.status).send();
             return;
 
-
-            res.json(null);
         });
 });
     
