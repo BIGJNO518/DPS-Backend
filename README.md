@@ -14,7 +14,7 @@ This will be the constructive repository for the Database portion of our Web-bas
 2. Open terminal and navigate to project root (Contains file `package.json`)
 3. Type command `npm install` to install all the dependencies for the project.
 4. Do the following in the terminal: `npm install mysql`, `npm install express`, `npm install nodemailer`
-5. Type command `npm start` to begin the server in watch mode. The server will restart if you change any file! So you don't need to 
+5. Type command `npm start` to begin the server in watch mode. The server will restart if you change any files and save it! So you don't need to manually restart it yourself.
 
 ### Packages
 body-parser: Allows us to get content of POST requests easily.
