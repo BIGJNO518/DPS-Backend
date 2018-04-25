@@ -20,4 +20,4 @@ SET @main_street_eid = LAST_INSERT_ID();
 INSERT INTO jobs (eid, name, startTime, endTime, uid) VALUES
 (@main_street_eid, 'Bagger', concat(DATE_ADD(CURDATE(), INTERVAL 7 DAY), ' 08:00:00'), concat(DATE_ADD(CURDATE(), INTERVAL 7 DAY), ' 10:00:00'), @dan_id),
 (@main_street_eid, 'Entertainment', concat(DATE_ADD(CURDATE(), INTERVAL 7 DAY), ' 08:00:00'), concat(DATE_ADD(CURDATE(), INTERVAL 7 DAY), ' 10:00:00'), null),
-(@main_street_eid, 'Traffic Stopper', concat(DATE_ADD(CURDATE(), INTERVAL 7 DAY), ' 08:00:00'), concat(DATE_ADD(CURDATE(), INTERVAL 7 DAY), ' 10:00:00'), null)
+(@main_street_eid, 'Traffic Stopper', concat(DATE_ADD(CURDATE(), INTERVAL 7 DAY), ' 08:00:00'), concat(DATE_ADD(CURDATE(), INTERVAL 7 DAY), ' 10:00:00'), null);
