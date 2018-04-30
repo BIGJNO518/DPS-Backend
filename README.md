@@ -9,7 +9,7 @@ This will be the constructive repository for the Database portion of our Web-bas
 5. Enter the following: ALTER USER 'root'@'localhost' IDENTIFIED BY 'YourNewPassword';
 6. CREATE USER 'custom'@'localhost' IDENTIFIED BY 'password';
 GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP ON dpsbackend.* TO 'custom'@'localhost';
-It is recommended if you set the custom to dps and the password to dpsbackend if you don't want to make adjustments to server.js
+It is recommended if you set the custom to dps and the password to backend if you don't want to make adjustments to server.js
 7. Last step to have a fully functional databse and tables: /source < sql.sql
 8. If you want mock data: /source < seed.sql
 
