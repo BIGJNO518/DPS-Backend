@@ -298,7 +298,7 @@ var routes = function (con) {
             return;
         }
 
-        con.query("UPDATE jobs SET isDeleted = TRUE WHERE Events.ID=" + eventId + ';', function (err, result, fields) {
+        con.query("UPDATE events SET isDeleted = TRUE WHERE Events.ID=" + eventId + ';', function (err, result, fields) {
             callback({status: 200, message: "Succesfully Deleted"}, null);
             return;
         });
