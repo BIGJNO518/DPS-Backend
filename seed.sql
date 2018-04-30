@@ -2,7 +2,7 @@
 SET SQL_SAFE_UPDATES = 0;
 
 -- Insert users, update some permissions to have admins (2 lines, first put user then add token for them)
-INSERT INTO users (name, phoneNumber, email, password) VALUE ('Daniel Foote', '5182224595', 'danfoote104227@gmail.com', AES_ENCRYPT(MD5('erick'), UNHEX(SHA2('SecretDPSPassphrase', 512))));
+INSERT INTO users (name, phoneNumber, email, password) VALUE ('Daniel Foote', '5182224595', 'danfoote104227@gmail.com', AES_ENCRYPT(MD5('password'), UNHEX(SHA2('SecretDPSPassphrase', 512))));
 SET @dan_id = LAST_INSERT_ID();
 UPDATE users SET token=MD5(@dan_id + NOW()), expires=DATE_ADD(NOW(), INTERVAL 30 DAY) WHERE ID=@dan_id;
 
