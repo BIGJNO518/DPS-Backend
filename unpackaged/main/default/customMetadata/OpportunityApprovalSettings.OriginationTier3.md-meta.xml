@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Origination Tier 3</label>
+    <protected>false</protected>
+    <values>
+        <field>DefaultRecordOwner__c</field>
+        <value xsi:type="xsd:string">0051U000006d3BXQAY</value>
+    </values>
+    <values>
+        <field>FinanceApproverCount__c</field>
+        <value xsi:type="xsd:double">1.0</value>
+    </values>
+    <values>
+        <field>LineItemRecordType__c</field>
+        <value xsi:type="xsd:string">WatchOrigination</value>
+    </values>
+    <values>
+        <field>ManagerApproverCount__c</field>
+        <value xsi:type="xsd:double">2.0</value>
+    </values>
+    <values>
+        <field>TierName__c</field>
+        <value xsi:type="xsd:string">Tier 3</value>
+    </values>
+    <values>
+        <field>UnitPriceMin__c</field>
+        <value xsi:type="xsd:double">99999.0</value>
+    </values>
+</CustomMetadata>

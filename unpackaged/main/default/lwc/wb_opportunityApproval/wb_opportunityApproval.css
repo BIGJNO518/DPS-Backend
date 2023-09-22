@@ -1,0 +1,35 @@
+/**
+ * Created by mparrella on 9/13/2023.
+ */
+
+.slds-modal__container{
+	width: 100% !important;
+	max-width: 40vw !important;
+}
+.slds-card__header{
+    background-color: var(--slds-c-card-color-background, rgb(243, 243, 243)) !important;
+    margin-bottom: 0px !important;
+}
+.slds-card__body{
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    max-height: 60vh !important;
+    overflow-y: auto !important;
+}
+
+.titleSmall{
+	font-size: 0.8rem !important;
+	font-weight: normal !important;
+}
+
+.loadingText {
+     padding-top: 100px;
+     font-size: 1rem;
+     color: black;
+ }
+
+.slds-spinner_container {
+     background-color: rgba(0,0,0,.1);
+     padding-top: 100px;
+     background: none;
+ }

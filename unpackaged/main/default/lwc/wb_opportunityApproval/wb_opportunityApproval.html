@@ -1,0 +1,30 @@
+<!--
+ - Created by mparrella on 9/13/2023.
+ -->
+
+<!-- (WatchBox) Deal Approval LWC -->
+<template>
+    <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+<!--            <lightning-button-icon alternative-text="Close" title="Close" class="slds-modal__close" icon-name="utility:close" size="large" variant="bare" onclick={closeAddCardPaymentModal}></lightning-button-icon>-->
+            <div class="slds-modal__header">
+                <h1 id="modal-heading-05" class="slds-modal__title slds-hyphenate">Submit for Approval</h1>
+            </div>
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-5">
+                <template if:true={isLoading}>
+                    <div class="slds-align_absolute-center slds-p-around_large slds-p-top_x-large slds-m-top_large">
+                        <span class="loadingText">{loadingText}</span>
+                        <lightning-spinner size="medium" alternative-text="Loading..."></lightning-spinner>
+                    </div>
+                </template>
+                <template if:false={isLoading}>
+
+                </template>
+            </div>
+            <div class="slds-modal__footer">
+                <lightning-button class="slds-p-right_small" variant="neutral" label="Cancel" onclick={closeSubmitForApproval}></lightning-button>
+            </div>
+        </div>
+    </section>
+<!--    <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>-->
+</template>
